@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap');
+
+.myimg{
+    width: 100%;
+    margin-left: 0;
+}
+section{
+    font-family: 'Tilt Warp', cursive;
+}
+.mainheading{
+    
+    padding: 3%;
+    text-align: center;
+}
+p #second{
+    font-size: 0.5rem;
+}
+.container{
+    margin-left: 0;
+}
+.row{
+    width: 100vw;
+   
+}
+#second{
+    background-color: rgb(183, 43, 95);
+    padding: 0;
+    color: whitesmoke;
+}
+
+
+#second p{
+    font-size: 1.75rem;
+    margin-top: 10%;
+    
+}
+
+#second h1{
+    padding-top: 10% ;
+}
+
+#third{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+
+}
