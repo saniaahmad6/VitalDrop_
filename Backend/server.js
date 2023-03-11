@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const mysqlInfo = {
   user: 'root',
   host: 'localhost',
-  password: 'password',
+  password: '3002_zeyaf',
   database: 'VitalDropDB'
 }
 
@@ -47,11 +47,39 @@ table_creations.forEach(query => {
   con.query(query, basicQueryCallback);
 });
 
+
 //Api starts here
 const express = require('express')
+const cors = require('cors')
+const morgan = require('morgan')
+const dotenv = require('dotenv')
+
+/*
+const banksRouter = require('./route/bank_router')
+const donationsRouter = require('./route/donation_router')
+const usersRouter = require('./route/user_router')
+const ordersRouter = require('./route/order_router')
+*/
+
+
+
 const app = express()
 const port = 5000
+dotenv.config()
 
+
+app.use(morgan('dev'))
+app.use(cors({ origin: 'http://localhost:3000' }))
+app.use(express.json())
+/*
+app.use('/users', usersRouter)
+app.use('/banks', banksRouter)
+app.use('/donations', donationsRouter)
+app.use('/orders', ordersRouter)
+const { createServer } = require('http')
+
+const server = createServer(app)
+*/
 app.get('/', (req, res) => {
   res.send('Hello World! - VitalDrop')
 })
@@ -59,3 +87,6 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+
+

@@ -17,7 +17,7 @@ const User = {
     updateUserByEmail: `
       UPDATE Users 
       SET password = (?),  
-      WHERE e_mail = (?)
+      WHERE email_id = (?)
     `,
   
     DeleteUserById: `
@@ -27,7 +27,3 @@ const User = {
   }
   
   module.exports = User
-
-
-  
-  

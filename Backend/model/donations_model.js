@@ -9,16 +9,20 @@ const Donation = {
       INSERT INTO Bloodbank
       (blood_type, center_id,units_available,)
       VALUES (?,?,?)
-      AND
+      
     `,
   
     selectDonor: `
       SELECT user_id , blood_type 
       FROM DonationCenters INNER JOIN Appointments
       ON Bloodbank.center_id = Appointments.center_id
-      INNER JOIN Donations ON Donations.appointment_id = Appoinntments.id
+      INNER JOIN Donations ON Donations.appointment_id = Appointments.id
       WHERE user_id = (?) 
     `,
+    selectDonationCenter:`
+    SELECT 
+    `
+
   }
   
   module.exports = Donation
