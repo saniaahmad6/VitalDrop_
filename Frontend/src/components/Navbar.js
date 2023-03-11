@@ -1,62 +1,57 @@
-import React from "react";
-import '../css/Navbar.css'
+import "./NavbarStyles.css"
+import React, {useState} from "react"
+import { Link, useSearchParams } from "react-router-dom"
+import {FaBars,FaTimes} from "react-icons/fa"
 
-const Navbar = () => {
-  return (
-  <div>
-    <nav className="navbar navbar-expand-lg  my-nav "data-bs-theme="dark">
-      <div className="container-fluid">
-      
-        <a className="navbar-brand" href="">
-        VitalDrop
-       </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse " id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="/">
-                Home
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/about">
-                Donate
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/about">
-                Seek
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/about">
-                Log in
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/about">
-                Sign up
-              </a>
-            </li>
-            
-            
-          </ul>
-          
-        </div>
-      </div>
-    </nav>
-  </div>
-  )
-};
+function Navbar(){
+    const [click, setClick]=useState(false);
+    const handleClick = () => setClick(!click);
+    const [color,setColor] =useState(false);
+    const changeColor =()=>{
+        if (window.scrollY >=100){
+            setColor(true);
+        }
+        else{
+            setColor(false);
+        }
+    }
+    window.addEventListener("scroll",changeColor);
+    return (
+        
+            <div className={color ? "header header-bg": "header"}>
+            <Link to="/" style={{color: "#41729F"}}>
+                <h1>
+                    VitalDrop
+                </h1> 
+            </Link>
+
+            <ul className={click ? "nav-menu active" : "nav-menu"}>
+                <li>
+                    <Link to="/" style={{color: "#41729F"}}>Home</Link>
+                </li>
+                <li>
+                    <Link to="/search" style={{color: "#41729F"}}>Centers</Link>
+                </li>
+                <li>
+                    <Link to="/login" style={{color: "#41729F"}}>Login/Signup</Link>
+                </li>
+                <li>
+                    <Link to="/adminlogin" style={{color: "#41729F"}}>Admin</Link>
+                </li>
+            </ul>
+            <div className="hamburger" onClick={handleClick}>
+                {
+                    click ? (<FaTimes size={20} style={{color: "#41729F"}}/>) :
+                    (<FaBars size={20} style={{color: "#41729F"}}/>)
+                }
+                
+                
+            </div>
+            </div>
+        
+
+    );
+
+}
 
 export default Navbar;
