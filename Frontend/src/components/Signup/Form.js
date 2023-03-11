@@ -19,19 +19,19 @@ function Form() {
   const [email, setEmail] = useState("")
   const navigate = useNavigate()
 
-  async function loginHandler(event) {
+  async function signupHandler(event) {
     let bodyJson = { username: username, email: email, password: password }
-    let res = await fetch("/login", {
+    let res = await fetch("/signup", {
       method: 'POST',
       body: new URLSearchParams(bodyJson),
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     })
     let data = (await res.json())
-    if(data.login){
-      navigate('/login/user')
+    if(data.signup){
+      navigate('/login')
     }
     else{
-      console.log('could not login')
+      console.log('could not sign up')
     }
   }
 
