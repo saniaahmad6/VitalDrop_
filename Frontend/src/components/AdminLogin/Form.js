@@ -41,9 +41,11 @@ function Form() {
             <p className="text-center fw-bold mx-3 mb-0">OR</p>
           </div>
 
+          <NavLink to="/adminlogin/adminsignup" style={{color: "black"}}>
           <MDBBtn className="mb-4 w-100" size="lg" style={{backgroundColor: '#3b5998'}}>
             Signup
           </MDBBtn>
+          </NavLink>
 
           
 
