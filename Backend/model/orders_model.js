@@ -29,11 +29,11 @@ const Order = {
     `,
   
     updateBloodState: `
-      UPDATE Appointments
+      UPDATE BloodBank
+      LEFT JOIN Apppointments
+      ON BloodBank.center_id = Appointments.center_id 
       LEFT JOIN Donation
       ON Appointments.id = Donation.appointment_id 
-      RIGHT JOIN BloodBank
-      ON BloodBank.center_id = Appointments.center_id 
       SET BloodBank.units_available = BloodBank.units_available - 1
       AND status = "donated" AND blood_type = ? 
       LIMIT ?
