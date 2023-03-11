@@ -2,11 +2,10 @@
     margin: 0;
     padding: 0;
     
-    /* box-sizing: border-box; */
-    /* color: #cfd2d6; */
+   
 }
 footer{
-	/* position: absolute; */
+	
     height: 200px;
 	bottom: 0;
 	background: rgb(37, 35, 35);
@@ -22,11 +21,7 @@ footer{
 	flex-direction: column;
 	text-align: center;
 }
-/* .footer p{
-    margin: 10px auto;
-    line-height: 28px;
-    font-size: 14px;
-} */
+
 /*social -media*/
 .socials{
     list-style: none;
