@@ -60,7 +60,7 @@ function Form() {
           </div>
 
           <NavLink to="/login/signup" style={{ color: "black" }}>
-            <MDBBtn className="mb-4 w-100" size="lg" style={{ backgroundColor: '#3b5998' }}>
+            <MDBBtn className="mb-4 w-100" size="lg" style={{ backgroundColor: '#FB6B90' , border: "#FB6B90" }}>
               Signup
             </MDBBtn>
           </NavLink>
