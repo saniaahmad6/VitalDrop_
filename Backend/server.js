@@ -187,6 +187,30 @@ app.get('/user-info', sessionChecker, (req, res) => {
   })
 })
 
+const bank_model=require('./model/bank_model')
+
+app.get('/search',sessionChecker,(req, res) => {
+  const sql = bank_model.selectDonationCenter
+  const state = req.body
+  con.query((sql , [ state ] ),(err, data) => {
+    if (err) return res.send({ error: true, success: false, message: err.message })
+    
+    res.send(data)
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })

@@ -27,3 +27,7 @@ const User = {
   }
   
   module.exports = User
+
+  /*
+  Backend/src/.gitignore Backend/src/controllers/bank_controller.js Backend/src/controllers/donation_controller.js Backend/src/controllers/user_controller.js Backend/src/db_config.js Backend/src/model/bank_model.js Backend/src/model/donations_model.js Backend/src/model/orders_model.js Backend/src/model/user_model.js Backend/src/router/user_router.js Backend/src/server.js Backend/src/util/bank_util.js
+        */

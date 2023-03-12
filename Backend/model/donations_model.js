@@ -19,12 +19,6 @@ const Donation = {
       INNER JOIN Donations ON Donations.appointment_id = Appointments.id
       WHERE user_id = ('?') 
     `,
-    selectDonationCenter:`
-    SELECT state , adress , pincode
-    FROM   DonationCenters  
-    WHERE state = ('?')
-    `
-
   }
   
   module.exports = Donation
