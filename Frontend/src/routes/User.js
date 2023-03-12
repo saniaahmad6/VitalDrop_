@@ -5,7 +5,7 @@ import UserInfo from "../components/User/UserInfo";
 function User(){
     return <>
         <Navbar/>
-        <Heroproj heading = "" text=""/>
+        <Heroproj heading = "Welcome Back!" text=""/>
         <UserInfo/>
         <Footer/>
     </>

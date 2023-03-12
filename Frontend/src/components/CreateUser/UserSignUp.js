@@ -67,9 +67,9 @@ function UserSignUp() {
               <MDBRadio  name='inlineRadio' id='inlineRadio2' value='option2' label='Male' inline />
               <MDBRadio   name='inlineRadio' id='inlineRadio3' value='option3' label='Other' inline />
             </MDBCol>
-            <br/>
+            {/* <br/> */}
           
-          <MDBCol col='4' md='12' >
+          {/* <MDBCol col='4' md='12' >
           <h6 className="fw">Blood Group: </h6>
           <MDBRadio name='inlineRadio' id='inlineRadio1' value='option1' label='A+' inline />
           <MDBRadio name='inlineRadio' id='inlineRadio2' value='option2' label='A-' inline />
@@ -80,7 +80,7 @@ function UserSignUp() {
           <MDBRadio name='inlineRadio' id='inlineRadio1' value='option1' label='O+' inline />
           <MDBRadio name='inlineRadio' id='inlineRadio2' value='option2' label='O-' inline />
           
-            </MDBCol>
+            </MDBCol> */}
           <br/>
           
           
