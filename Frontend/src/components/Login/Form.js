@@ -14,13 +14,12 @@ import { NavLink, useNavigate } from "react-router-dom"
 
 
 function Form() {
-  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [email, setEmail] = useState("")
   const navigate = useNavigate()
 
   async function loginHandler(event) {
-    let bodyJson = { username: username, email: email, password: password }
+    let bodyJson = { email: email, password: password }
     let res = await fetch("/login", {
       method: 'POST',
       body: new URLSearchParams(bodyJson),
@@ -46,7 +45,6 @@ function Form() {
 
         <MDBCol col='4' md='6' style={{ padding: "2rem" }}>
 
-          <MDBInput wrapperClass='mb-4' label='Name' id='formControlLg' type='email' size="lg" value={username} onChange={(e) => setUsername(e.target.value)} />
           <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg" value={email} onChange={(e) => setEmail(e.target.value)} />
           <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg" value={password} onChange={(e) => setPassword(e.target.value)} />
 

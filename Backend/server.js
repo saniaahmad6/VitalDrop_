@@ -43,9 +43,30 @@ const table_creations = [
   "create table if not exists Requests(id int PRIMARY KEY, user_id int not null, center_id int not null, blood_type char(4) not null, amount int not null, status varchar(255), FOREIGN KEY(user_id) REFERENCES Users(id), FOREIGN KEY(center_id) REFERENCES DonationCenters(id))"
 ]
 
+const tables = ["Users", "DonationCenters", "AdminUsers", "BloodBank", "Appointments", "Donations", "Requests"]
+
+const table_alterations = [
+  "ALTER TABLE Users MODIFY id int AUTO_INCREMENT;",
+  "ALTER TABLE DonationCenters MODIFY id int AUTO_INCREMENT;",
+  "ALTER TABLE AdminUsers MODIFY id int AUTO_INCREMENT;",
+  "ALTER TABLE Appointments MODIFY id int AUTO_INCREMENT;",
+  "ALTER TABLE Donations MODIFY id int AUTO_INCREMENT;",
+  "ALTER TABLE Requests MODIFY id int AUTO_INCREMENT;",
+]
+
 table_creations.forEach(query => {
   con.query(query, basicQueryCallback);
 });
+
+con.query(`LOCK TABLES ${tables.join(' WRITE,')} WRITE`, basicQueryCallback)
+con.query(`SET FOREIGN_KEY_CHECKS = 0`, basicQueryCallback)
+
+table_alterations.forEach(query => {
+  con.query(query, basicQueryCallback);
+})
+
+con.query(`SET FOREIGN_KEY_CHECKS = 1`, basicQueryCallback)
+con.query(`UNLOCK TABLES`, basicQueryCallback)
 
 //Api starts here
 const express = require('express')
@@ -58,11 +79,13 @@ const sessions = require('express-session')
 const app = express()
 const port = 5000
 
+const server = createServer(app)
+
+var session
+
 app.get('/', (req, res) => {
   res.send('Hello World! - VitalDrop')
 })
-
-
 
 const placeModelArgs = (model, args) => {
   let i = 0;
@@ -86,42 +109,54 @@ app.use(sessions({
 app.use(cookieParser());
 
 app.post('/signup', urlEncodedParser, (req, res) => {
-  if (req.body.email == myemail && req.body.password == mypassword) {
-    session = req.session;
-    console.log(session.id)
-    session.userid = req.body.username;
-    res.send({ login: true });
-  }
-  else {
-    res.send({ login: false });
-  }
+  modalArgs = [req.body.username, req.body.email, req.body.password, req.body.address, req.body.phoneNo]
+  con.query(placeModelArgs(user_model.insertUser, modalArgs), (err, result) => {
+    if (err) {
+      console.error(err)
+      res.send({ signup: false })
+    } else {
+      console.log('Successfuly signed up! ', req.body.username)
+      res.send({ signup: true })
+    }
+  })
 })
 
 app.post('/login', urlEncodedParser, (req, res) => {
-  myemail = 'muneeb0ahmed3@gmail.com'
-  mypassword = 'password'
-  console.log("body::::", req.body)
-  if (req.body.email == myemail && req.body.password == mypassword) {
-    session = req.session;
-    console.log(session.id)
-    session.userid = req.body.username;
-    res.send({ login: true });
-  }
-  else {
-    res.send({ login: false });
+  if (req.body.email) {
+    con.query(placeModelArgs(user_model.selectUserByEmail, [req.body.email]), (err, result) => {
+      if (err) {
+        console.log("error in login query")
+        res.send({ login: false, err: "DB ERROR" })
+      }
+      else {
+        if (result.length != 1) {
+          res.send({ login: false, err: "EMAIL NOT REGISTERED" })
+        }
+        else {
+          let stored = result[0]
+          if (req.body.password == stored.password) {
+            session = req.session;
+            session.userid = stored.id;
+            res.send({ login: true });
+          }
+          else {
+            res.send({ login: false, err: "INCORRECT PASSWORD" });
+          }
+        }
+      }
+    })
   }
 })
 
 app.get('/logout', (req, res) => {
   req.session.destroy();
-  res.redirect('/');
+  session = null
+  res.send()
 });
 
 
 const sessionChecker = (req, res, next) => {
-  console.log(`Session Checker: ${req.session.id}`);
-  console.log(req.session.profile);
-  if (req.session.id == session.id) {
+  if (session && session.userid) {
     console.log(`Found User Session`);
     next();
   } else {
@@ -139,3 +174,4 @@ app.get('/personal-info', sessionChecker, (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+  

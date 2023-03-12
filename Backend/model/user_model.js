@@ -1,12 +1,12 @@
 const User = {
     insertUser: `
       INSERT INTO Users
-      (name, email_id, password,address,phone_no)
-      VALUES (?,?,?,?,?)
+      (name, email_id, password, address, phone_no)
+      VALUES ('?','?','?','?','?')
     `,
   
     selectUserByEmail: `
-      SELECT * FROM Users WHERE email_id = (?)
+      SELECT * FROM Users WHERE email_id = ('?')
     `,
   
     selectRandomManager: `
@@ -16,8 +16,8 @@ const User = {
   
     updateUserByEmail: `
       UPDATE Users 
-      SET password = (?),  
-      WHERE e_mail = (?)
+      SET password = ('?'),  
+      WHERE email_id = ('?')
     `,
   
     DeleteUserById: `
