@@ -30,19 +30,25 @@ function UserInfo() {
   return (
     <>
       <div className='user-container' >
-        <h1 style={{ textAlign: "center", padding: "3rem 0" }}> Hello, xyz</h1>
+        <h1 style={{ textAlign: "center", padding: "3rem 0" }}> Hello, {userData.name}</h1>
         <div className='user-container-box'>
           <Row style={{ fontSize: "1.4rem" }}>
-            <Col sm style={{ border: "1px solid #274472" }}>NAME : {userData.name}</Col>
-            <Col sm style={{ border: "1px solid #274472" }}>USER ID: {userData.uid}</Col>
+            <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>NAME : {userData.name}</Col>
+            <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>USER ID: {userData.uid}</Col>
           </Row>
+          
           <Row style={{ fontSize: "1.4rem" }}>
-            <Col sm style={{ border: "1px solid #274472" }}>EMAIL ID: {userData.email_id}</Col>
-            <Col sm style={{ border: "1px solid #274472" }}>PHONE NUMBER: {userData.phone_no}</Col>
+            <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>EMAIL ID: {userData.email_id}</Col>
+            <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>PHONE NUMBER: {userData.phone_no}</Col>
 
           </Row>
           <Row style={{ fontSize: "1.4rem" }}>
-            <Col sm style={{ border: "1px solid #274472" }}>ADDRESS: {userData.address}</Col>
+            <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>BLODD GROUP : </Col>
+            <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>GENDER: </Col>
+          </Row>
+          
+          <Row style={{ fontSize: "1.4rem" }}>
+            <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>ADDRESS: {userData.address}</Col>
 
           </Row>
         </div>
