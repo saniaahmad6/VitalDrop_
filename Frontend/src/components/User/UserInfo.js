@@ -3,8 +3,17 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import "./UserInfo.css"
+import { useNavigate } from 'react-router-dom';
 
 function UserInfo() {
+  const navigator = useNavigate()
+
+  async function handleLogout(event){
+    console.log("Logging out")
+    await fetch("/logout")
+    navigator("/")
+  }
+
   return (
     <>
     <div className='user-container' >
@@ -40,14 +49,10 @@ function UserInfo() {
       </div>
       
       <div className='user-danger'>
-          <Button style ={{ marginRight : "1rem"}}variant="outline-dark">Log Out</Button>{' '}
+          <Button onClick={handleLogout} style ={{ marginRight : "1rem"}}variant="outline-dark">Log Out</Button>{' '}
           <Button variant="outline-danger">Delete Account</Button>{' '}
       </div>
     </div>
-
-      
-      
-
     </>
   );
 }
