@@ -34,16 +34,17 @@ function UserInfo() {
         <div className='user-container-box'>
           <Row style={{ fontSize: "1.4rem" }}>
             <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>NAME : {userData.name}</Col>
-            <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>USER ID: {userData.uid}</Col>
+            
           </Row>
           
           <Row style={{ fontSize: "1.4rem" }}>
+          <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>USER ID: {userData.uid}</Col>
             <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>EMAIL ID: {userData.email_id}</Col>
-            <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>PHONE NUMBER: {userData.phone_no}</Col>
+            
 
           </Row>
           <Row style={{ fontSize: "1.4rem" }}>
-            <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>BLODD GROUP : </Col>
+            <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>PHONE NUMBER: {userData.phone_no}</Col>
             <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>GENDER: </Col>
           </Row>
           
