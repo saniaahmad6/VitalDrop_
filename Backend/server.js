@@ -28,7 +28,7 @@ con.changeUser({ database: mysqlInfo.database }, function (err) {
 
 
 const table_creations = [
-  "create table if not exists Users(id int PRIMARY KEY, email_id varchar(255) not null, name varchar(255), password varchar(255), UNIQUE(email_id), address varchar(255) not null, phone_no varchar(10) not null, blood_type char(4) not null, dob char(10) not null, gender char(10) not null)",
+  "create table if not exists Users(id int PRIMARY KEY, email_id varchar(255) not null, name varchar(255), password varchar(255), UNIQUE(email_id), address varchar(255) not null, phone_no varchar(10) not null, gender char(10) not null)",
 
   "create table if not exists DonationCenters(id int PRIMARY KEY, pincode varchar(10) not null, state varchar(255) not null, address varchar(255) not null)",
 
@@ -38,7 +38,7 @@ const table_creations = [
 
   "create table if not exists Appointments(id int PRIMARY KEY, center_id int not null, slot DATETIME, FOREIGN KEY(center_id) REFERENCES DonationCenters(id))",
 
-  "create table if not exists Donations(id int PRIMARY KEY, user_id int not null, appointment_id int not null, status varchar(255), FOREIGN KEY(user_id) REFERENCES Users(id), FOREIGN KEY(appointment_id) REFERENCES Appointments(id))",
+  "create table if not exists Donations(id int PRIMARY KEY, user_id int not null, appointment_id int not null, status varchar(255),blood_type varchar(4) not null, FOREIGN KEY(user_id) REFERENCES Users(id), FOREIGN KEY(appointment_id) REFERENCES Appointments(id))",
 
   "create table if not exists Requests(id int PRIMARY KEY, user_id int not null, center_id int not null, blood_type char(4) not null, amount int not null, status varchar(255), FOREIGN KEY(user_id) REFERENCES Users(id), FOREIGN KEY(center_id) REFERENCES DonationCenters(id))"
 ]
@@ -109,7 +109,7 @@ app.use(sessions({
 app.use(cookieParser());
 
 app.post('/signup', urlEncodedParser, (req, res) => {
-  modalArgs = [req.body.username, req.body.email, req.body.password, req.body.address, req.body.phoneNo, req.body.blood_type, req.body.dob,req.body.gender]
+  modalArgs = [req.body.username, req.body.email, req.body.password, req.body.address, req.body.phoneNo,req.body.gender]
   con.query(placeModelArgs(user_model.insertUser, modalArgs), (err, result) => {
     if (err) {
       console.error(err)
@@ -172,7 +172,7 @@ app.get('/personal-info', sessionChecker, (req, res) => {
 })
 
 app.get('/user-info', sessionChecker, (req, res) => {
-  con.query(placeModelArgs(`SELECT id as uid, name, email_id, address, phone_no, blood_type, dob, gender FROM Users WHERE id = ?`, [session.userid]), (err, result) => {
+  con.query(placeModelArgs(`SELECT id as uid, name, email_id, address, phone_no, gender FROM Users WHERE id = ?`, [session.userid]), (err, result) => {
     if (err) {
       console.error(err)
       res.send({ error: true, message: "DB error" })
