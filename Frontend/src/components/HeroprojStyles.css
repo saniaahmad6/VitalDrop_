@@ -20,7 +20,7 @@
 .hero-img::before{
     content: "";
     /* background: url("../images/hero.jpg"); */
-    background-size: cover;
+    
     background-position: center top;
     height: 100%;
     width: 100%;

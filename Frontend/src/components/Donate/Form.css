@@ -13,3 +13,16 @@
 .p-3 .my-5 .custom{
     padding: 3rem 3rem;
 }
+.donate-page{
+  width: 100vw;
+}
+.donate-page .heading{
+  color: #5F093D;
+  
+  margin-bottom: 0;
+}
+
+.donate-page .labels{
+  padding: 1rem 0 0.5rem;
+}
+
