@@ -187,6 +187,14 @@ app.get('/user-info', sessionChecker, (req, res) => {
   })
 })
 
+app.delete('/user-delete', sessionChecker ,(req,res) => {
+  const sql = user_model.DeleteUserById
+  con.query((sql,[session.userid]),(err,data)=> {
+    if (err) return res.send({ error: true, success: false, message: err.message })      
+  })
+})
+
+
 const bank_model=require('./model/bank_model')
 
 app.get('/search',sessionChecker,(req, res) => {
