@@ -75,7 +75,7 @@ const jsonParser = bodyParser.json()
 const urlEncodedParser = bodyParser.urlencoded()
 const cookieParser = require('cookie-parser')
 const sessions = require('express-session')
-const dotenv = require('dotenv') 
+const dotenv = require('dotenv')
 
 const app = express()
 const port = 5000
@@ -171,7 +171,23 @@ app.get('/personal-info', sessionChecker, (req, res) => {
   res.send(personalInfo)
 })
 
+app.get('/user-info', sessionChecker, (req, res) => {
+  con.query(placeModelArgs(`SELECT id as uid, name, email_id, address, phone_no FROM Users WHERE id = ?`, [session.userid]), (err, result) => {
+    if (err) {
+      console.error(err)
+      res.send({ error: true, message: "DB error" })
+    } else {
+      if (result.length != 1) {
+        res.send({ error: true, message: "USER NOT FOUND" })
+      }
+      else {
+        res.send(result[0])
+      }
+    }
+  })
+})
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
-  
+

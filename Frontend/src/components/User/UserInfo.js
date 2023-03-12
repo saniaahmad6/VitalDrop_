@@ -4,55 +4,68 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import "./UserInfo.css"
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 function UserInfo() {
   const navigator = useNavigate()
 
-  async function handleLogout(event){
+  async function handleLogout(event) {
     console.log("Logging out")
     await fetch("/logout")
     navigator("/")
   }
 
+  const [userData, setUserData] = useState({
+    uid: "", name: "", email_id: "", address: "", phone_no: ""
+  })
+
+  useEffect(() => {
+    fetch("/user-info").then((response) => {
+      response.json().then(data => {
+        setUserData(data)
+      })
+    })
+  }, [])
+
   return (
     <>
-    <div className='user-container' >
-      <h1 style ={{textAlign:"center" , padding: "3rem 0"}}> Hello, xyz</h1>
-      <div className='user-container-box'>
-      <Row style ={{ fontSize: "1.4rem" }}>
-        <Col sm style ={{border: "1px solid #274472"}}>NAME : </Col>
-        <Col sm style ={{border: "1px solid #274472"}}>USER ID: </Col>
-      </Row>
-      <Row style ={{ fontSize: "1.4rem"}}>
-        <Col  sm style ={{border: "1px solid #274472"}}>EMAIL ID: </Col>
-        <Col  sm style ={{border: "1px solid #274472"}}>PHONE NUMBER: </Col>
-        
-      </Row>
-      <Row style ={{ fontSize: "1.4rem"}}>
-        <Col  sm style ={{border: "1px solid #274472"}}>ADDRESS: </Col>
+      <div className='user-container' >
+        <h1 style={{ textAlign: "center", padding: "3rem 0" }}> Hello, xyz</h1>
+        <div className='user-container-box'>
+          <Row style={{ fontSize: "1.4rem" }}>
+            <Col sm style={{ border: "1px solid #274472" }}>NAME : {userData.name}</Col>
+            <Col sm style={{ border: "1px solid #274472" }}>USER ID: {userData.uid}</Col>
+          </Row>
+          <Row style={{ fontSize: "1.4rem" }}>
+            <Col sm style={{ border: "1px solid #274472" }}>EMAIL ID: {userData.email_id}</Col>
+            <Col sm style={{ border: "1px solid #274472" }}>PHONE NUMBER: {userData.phone_no}</Col>
 
-      </Row>
-      </div>
-      <div className='update'>
-      <Button variant="outline-warning">Update Info</Button>{' '}
-      </div>
-      <hr />
-      <div className='question'>
-        <div className='question-left'>
-          <h1>DO YOU WANT TO? </h1>
+          </Row>
+          <Row style={{ fontSize: "1.4rem" }}>
+            <Col sm style={{ border: "1px solid #274472" }}>ADDRESS: {userData.address}</Col>
+
+          </Row>
         </div>
-        <div className='question-right'>
-          <Button  variant="outline-info" style ={{ marginRight : "1rem"}}>Donate</Button>{' '}
-          <Button variant="outline-success">Receive</Button>{' '}
+        <div className='update'>
+          <Button variant="outline-warning">Update Info</Button>{' '}
+        </div>
+        <hr />
+        <div className='question'>
+          <div className='question-left'>
+            <h1>DO YOU WANT TO? </h1>
+          </div>
+          <div className='question-right'>
+            <Button variant="outline-info" style={{ marginRight: "1rem" }}>Donate</Button>{' '}
+            <Button variant="outline-success">Receive</Button>{' '}
+          </div>
+
         </div>
 
-      </div>
-      
-      <div className='user-danger'>
-          <Button onClick={handleLogout} style ={{ marginRight : "1rem"}}variant="outline-dark">Log Out</Button>{' '}
+        <div className='user-danger'>
+          <Button onClick={handleLogout} style={{ marginRight: "1rem" }} variant="outline-dark">Log Out</Button>{' '}
           <Button variant="outline-danger">Delete Account</Button>{' '}
+        </div>
       </div>
-    </div>
     </>
   );
 }
