@@ -10,10 +10,10 @@ import {
   MDBInput,
   MDBRadio,
   MDBCheckbox,
-  MDBSelect
+  MDBSelect,
 }
   from 'mdb-react-ui-kit';
-import {  useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import Form from 'react-bootstrap/Form';
 
 function UserSignUp() {
@@ -22,6 +22,7 @@ function UserSignUp() {
   const [email, setEmail] = useState("")
   const [address, setAddress] = useState("")
   const [phoneNo, setPhoneNo] = useState("")
+  const [gender, setGender] = useState("Male")
   const navigate = useNavigate()
 
   async function signupHandler(event) {
@@ -30,8 +31,10 @@ function UserSignUp() {
       email: email,
       phoneNo: phoneNo,
       address: address,
-      password: password
+      password: password,
+      gender: gender,
     }
+    console.log(bodyJson)
     let res = await fetch("/signup", {
       method: 'POST',
       body: new URLSearchParams(bodyJson),
@@ -59,39 +62,25 @@ function UserSignUp() {
 
           <MDBInput wrapperClass='mb-4' label='Name' id='formControlLg' type='text' size="lg" value={username} onChange={(e) => setUsername(e.target.value)} />
           <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg" value={email} onChange={(e) => setEmail(e.target.value)} />
-          
-                    
-            <MDBCol col='4' md='12'>
-              <h6 className="fw">Gender: </h6>
-              <MDBRadio   name='inlineRadio' id='inlineRadio1' value='option1' label='Female' inline />
-              <MDBRadio  name='inlineRadio' id='inlineRadio2' value='option2' label='Male' inline />
-              <MDBRadio   name='inlineRadio' id='inlineRadio3' value='option3' label='Other' inline />
-            </MDBCol>
-            {/* <br/> */}
-          
-          {/* <MDBCol col='4' md='12' >
-          <h6 className="fw">Blood Group: </h6>
-          <MDBRadio name='inlineRadio' id='inlineRadio1' value='option1' label='A+' inline />
-          <MDBRadio name='inlineRadio' id='inlineRadio2' value='option2' label='A-' inline />
-          <MDBRadio name='inlineRadio' id='inlineRadio3' value='option3' label='B+' inline />
-          <MDBRadio name='inlineRadio' id='inlineRadio1' value='option1' label='B-' inline />
-          <MDBRadio name='inlineRadio' id='inlineRadio2' value='option2' label='AB+' inline />
-          <MDBRadio name='inlineRadio' id='inlineRadio3' value='option3' label='AB-' inline />
-          <MDBRadio name='inlineRadio' id='inlineRadio1' value='option1' label='O+' inline />
-          <MDBRadio name='inlineRadio' id='inlineRadio2' value='option2' label='O-' inline />
-          
-            </MDBCol> */}
-          <br/>
-          
-          
-          
+
+
+          <MDBCol col='4' md='12'>
+            <h6 className="fw">Gender: </h6>
+            <MDBRadio name='inlineRadio' id='inlineRadio1' value='option1' label='Female' inline onChange={() => { setGender("Female") }} />
+            <MDBRadio name='inlineRadio' id='inlineRadio2' value='option2' label='Male' inline onChange={() => { setGender("Male") }} />
+            <MDBRadio name='inlineRadio' id='inlineRadio3' value='option3' label='Other' inline onChange={() => { setGender("Other") }} />
+          </MDBCol>
+          <br />
+
+
+
           <MDBInput wrapperClass='mb-4' label='Phone Number' id='formControlLg' type='tel' size="lg" value={phoneNo} onChange={(e) => setPhoneNo(e.target.value)} />
           <MDBInput wrapperClass='mb-4' label='Address' id='formControlLg' type='Address' size="lg" value={address} onChange={(e) => setAddress(e.target.value)} />
           <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg" value={password} onChange={(e) => setPassword(e.target.value)} />
 
 
-          
-          <MDBBtn onClick={signupHandler} className="mb-4 w-100" size="lg" style ={{background :"#FB4570" ,border : "#FB4570" }}>Register</MDBBtn>
+
+          <MDBBtn onClick={signupHandler} className="mb-4 w-100" size="lg" style={{ background: "#FB4570", border: "#FB4570" }}>Register</MDBBtn>
 
 
         </MDBCol>

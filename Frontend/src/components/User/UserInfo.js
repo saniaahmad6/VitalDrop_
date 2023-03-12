@@ -3,7 +3,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import "./UserInfo.css"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 function UserInfo() {
@@ -19,6 +19,14 @@ function UserInfo() {
     uid: "", name: "", email_id: "", address: "", phone_no: ""
   })
 
+  function onDonate(event) {
+    navigator("/login/user/donate")
+  }
+
+  function onReceive(event) {
+    navigator("/login/user/receive")
+  }
+
   useEffect(() => {
     fetch("/user-info").then((response) => {
       response.json().then(data => {
@@ -26,7 +34,6 @@ function UserInfo() {
       })
     })
   }, [])
-
   return (
     <>
       <div className='user-container' >
@@ -62,8 +69,8 @@ function UserInfo() {
             <h1>DO YOU WANT TO? </h1>
           </div>
           <div className='question-right'>
-            <Button variant="outline-info" style={{ marginRight: "1rem" }}>Donate</Button>{' '}
-            <Button variant="outline-success">Receive</Button>{' '}
+            <Button onClick={onDonate} variant="outline-info" style={{ marginRight: "1rem" }}>Donate</Button>{' '}
+            <Button onClick={onReceive} variant="outline-success">Receive</Button>{' '}
           </div>
 
         </div>
