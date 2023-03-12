@@ -2,13 +2,13 @@ const Donation = {
     insertDonor: `
       INSERT INTO Donations
       (id, user_id, appointment_id, status)
-      VALUES (?,?,?,?)
+      VALUES ('?','?','?','?')
     `,
   
     insertBlood: `
       INSERT INTO Bloodbank
       (blood_type, center_id,units_available,)
-      VALUES (?,?,?)
+      VALUES ('?','?','?')
       
     `,
   
@@ -17,12 +17,12 @@ const Donation = {
       FROM DonationCenters INNER JOIN Appointments
       ON Bloodbank.center_id = Appointments.center_id
       INNER JOIN Donations ON Donations.appointment_id = Appointments.id
-      WHERE user_id = (?) 
+      WHERE user_id = ('?') 
     `,
     selectDonationCenter:`
     SELECT state , adress , pincode
     FROM   DonationCenters  
-    WHERE state = (?)
+    WHERE state = ('?')
     `
 
   }

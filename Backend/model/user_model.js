@@ -22,7 +22,7 @@ const User = {
   
     DeleteUserById: `
       DELETE FROM Users 
-      WHERE id = ?
+      WHERE id = ('?')
     `,
   }
   
