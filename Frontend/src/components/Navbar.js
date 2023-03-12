@@ -19,7 +19,7 @@ function Navbar(){
     return (
         
             <div className={color ? "header header-bg": "header"}>
-            <Link to="/" style={{color: "#41729F"}}>
+            <Link to="/" style={{color: "#FB4570"}}>
                 <h1>
                     VitalDrop
                 </h1> 
@@ -27,22 +27,22 @@ function Navbar(){
 
             <ul className={click ? "nav-menu active" : "nav-menu"}>
                 <li>
-                    <Link to="/" style={{color: "#41729F"}}>Home</Link>
+                    <Link to="/" style={{color: "#FB4570"}}>Home</Link>
                 </li>
                 <li>
-                    <Link to="/search" style={{color: "#41729F"}}>Centers</Link>
+                    <Link to="/search" style={{color: "#FB4570"}}>Centers</Link>
                 </li>
                 <li>
-                    <Link to="/login" style={{color: "#41729F"}}>Login/Signup</Link>
+                    <Link to="/login" style={{color: "#FB4570"}}>Login/Signup</Link>
                 </li>
                 <li>
-                    <Link to="/adminlogin" style={{color: "#41729F"}}>Admin</Link>
+                    <Link to="/adminlogin" style={{color: "#FB4570"}}>Admin</Link>
                 </li>
             </ul>
             <div className="hamburger" onClick={handleClick}>
                 {
-                    click ? (<FaTimes size={20} style={{color: "#41729F"}}/>) :
-                    (<FaBars size={20} style={{color: "#41729F"}}/>)
+                    click ? (<FaTimes size={20} style={{color: "#FB4570"}}/>) :
+                    (<FaBars size={20} style={{color: "#FB4570"}}/>)
                 }
                 
                 
