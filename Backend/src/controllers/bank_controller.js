@@ -1,4 +1,4 @@
-const db = require('../db_config')
+const db = require('../../db_config')
 const Bank = require('../models/banks_model')
 const { completeMissingBloodTypes } = require('../util/banks_util')
 
