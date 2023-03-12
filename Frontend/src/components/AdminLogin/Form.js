@@ -18,13 +18,11 @@ function Form() {
 
       <MDBRow>
 
-        <MDBCol col='10' md='6'>
-          <img src={IMG} class="img-fluid" alt="Phone image" style={{width: "100%", padding: "2rem"}}/>
-        </MDBCol>
+        
 
         <MDBCol col='4' md='6' style={{padding: "2rem"}}>
 
-        <MDBInput wrapperClass='mb-4' label='Name' id='formControlLg' type='email' size="lg"/>
+        
           <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg"/>
           <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg"/>
 
@@ -42,7 +40,7 @@ function Form() {
           </div>
 
           <NavLink to="/adminlogin/adminsignup" style={{color: "black"}}>
-          <MDBBtn className="mb-4 w-100" size="lg" style={{backgroundColor: '#3b5998'}}>
+          <MDBBtn className="mb-4 w-100" size="lg" style={{backgroundColor: '#FB6B90', border : "#FB6B90"}}>
             Signup
           </MDBBtn>
           </NavLink>
@@ -50,7 +48,9 @@ function Form() {
           
 
         </MDBCol>
-
+        <MDBCol col='10' md='6'>
+          <img src={IMG} class="img-fluid" alt="Phone image" style={{width: "100%" , height: "100%"}}/>
+        </MDBCol>
       </MDBRow>
 
     </MDBContainer>

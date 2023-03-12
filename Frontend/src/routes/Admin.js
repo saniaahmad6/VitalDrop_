@@ -5,7 +5,7 @@ import Form from "../components/AdminLogin/Form"
 function Admin(){
     return <>
         <Navbar/>
-        <Heroproj heading = "" text=""/>
+        <Heroproj heading = "Log in or Sign up" text="*For Donation sites"/>
         <Form/>
         <Footer/>
     </>
