@@ -75,12 +75,11 @@ const jsonParser = bodyParser.json()
 const urlEncodedParser = bodyParser.urlencoded()
 const cookieParser = require('cookie-parser')
 const sessions = require('express-session')
+const dotenv = require('dotenv') 
 
 const app = express()
 const port = 5000
 dotenv.config()
-
-const server = createServer(app)
 
 var session
 
