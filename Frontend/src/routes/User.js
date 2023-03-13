@@ -1,12 +1,12 @@
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import Heroproj from "../components/Heroproj";
-import UserInfo from "../components/User/UserInfo";
+import { Outlet } from "react-router-dom";
 function User(){
     return <>
         <Navbar/>
-        <Heroproj heading = "" text=""/>
-        <UserInfo/>
+        <Heroproj heading = "Welcome Back!" text=""/>
+        <Outlet/>
         <Footer/>
     </>
 

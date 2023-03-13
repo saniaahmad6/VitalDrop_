@@ -1,8 +1,8 @@
 const User = {
     insertUser: `
       INSERT INTO Users
-      (name, email_id, password, address, phone_no)
-      VALUES ('?','?','?','?','?')
+      (name, email_id, password, address, phone_no, gender)
+      VALUES ('?','?','?','?','?','?')
     `,
   
     selectUserByEmail: `

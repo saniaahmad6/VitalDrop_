@@ -1,7 +1,7 @@
 const Donation = {
     insertDonor: `
       INSERT INTO Donations
-      (id, user_id, appointment_id, status)
+      (user_id, appointment_id, status,blood_type)
       VALUES ('?','?','?','?')
     `,
   

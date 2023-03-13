@@ -5,7 +5,7 @@ import Form from "../components/Login/Form";
 function Login(){
     return <>
         <Navbar/>
-        <Heroproj heading = "" text=""/>
+        <Heroproj heading = "Log in or Sign up" text="Let's be in this together"/>
         <Form/>
         <Footer/>
     </>

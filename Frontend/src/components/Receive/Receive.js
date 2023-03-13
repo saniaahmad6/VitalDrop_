@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import IMG from "./loginperson.jpg"
 import "./Form.css"
 import {
   MDBContainer,
@@ -14,35 +13,13 @@ import {
 import { NavLink, useNavigate } from "react-router-dom"
 
 
-function Form() {
+function Receive() {
   const [password, setPassword] = useState("")
   const [email, setEmail] = useState("")
-  const navigate = useNavigate()
-
-  async function loginHandler(event) {
-    let bodyJson = { email: email, password: password }
-    let res = await fetch("/login", {
-      method: 'POST',
-      body: new URLSearchParams(bodyJson),
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    })
-    let data = (await res.json())
-    if (data.login) {
-      navigate('/login/user')
-    }
-    else {
-      console.log('could not login')
-    }
-  }
-
   return (
     <MDBContainer fluid className="p-3 my-5 custom" style={{ padding: "3rem 3rem" }}>
 
       <MDBRow>
-
-        <MDBCol col='10' md='6'>
-          <img src={IMG} class="img-fluid" alt="Phone image" style={{ width: "100%", padding: "2rem" }} />
-        </MDBCol>
 
         <MDBCol col='4' md='6' style={{ padding: "2rem" }}>
 
@@ -54,14 +31,14 @@ function Form() {
             <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
             <a href="!#">Forgot password?</a>
           </div>
-          <MDBBtn onClick={loginHandler} className="mb-4 w-100" size="lg">Log in</MDBBtn>
+          <MDBBtn className="mb-4 w-100" size="lg">Log in</MDBBtn>
 
           <div className="divider d-flex align-items-center my-4">
             <p className="text-center fw-bold mx-3 mb-0">OR</p>
           </div>
 
           <NavLink to="/login/signup" style={{ color: "black" }}>
-            <MDBBtn className="mb-4 w-100" size="lg" style={{ backgroundColor: '#FB6B90', border: "#FB6B90" }}>
+            <MDBBtn className="mb-4 w-100" size="lg" style={{ backgroundColor: '#3b5998' }}>
               Signup
             </MDBBtn>
           </NavLink>
@@ -75,4 +52,4 @@ function Form() {
   );
 }
 
-export default Form;
+export default Receive

@@ -46,7 +46,7 @@ footer{
     transition: color .4s ease;
 }
 .socials a:hover i{
-    color: dodgerblue;
+    color: #FB4570;
 }
 /* copyright*/
 .footer-copyright{

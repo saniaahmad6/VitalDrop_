@@ -4,7 +4,8 @@ import Heroproj from "../components/Heroproj";
 function Search(){
     return <>
         <Navbar/>
-        <Heroproj heading = "" text=""/>
+        <Heroproj heading = "Search" text="Find your nearest center"/>
+        {/* <SearchBar/> */}
         <Footer/>
     </>
 

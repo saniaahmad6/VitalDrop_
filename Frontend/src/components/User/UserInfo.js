@@ -3,7 +3,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import "./UserInfo.css"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 function UserInfo() {
@@ -19,6 +19,14 @@ function UserInfo() {
     uid: "", name: "", email_id: "", address: "", phone_no: ""
   })
 
+  function onDonate(event) {
+    navigator("/login/user/donate")
+  }
+
+  function onReceive(event) {
+    navigator("/login/user/receive")
+  }
+
   useEffect(() => {
     fetch("/user-info").then((response) => {
       response.json().then(data => {
@@ -26,23 +34,29 @@ function UserInfo() {
       })
     })
   }, [])
-
   return (
     <>
       <div className='user-container' >
-        <h1 style={{ textAlign: "center", padding: "3rem 0" }}> Hello, xyz</h1>
+        <h1 style={{ textAlign: "center", padding: "3rem 0" }}> Hello, {userData.name}</h1>
         <div className='user-container-box'>
           <Row style={{ fontSize: "1.4rem" }}>
-            <Col sm style={{ border: "1px solid #274472" }}>NAME : {userData.name}</Col>
-            <Col sm style={{ border: "1px solid #274472" }}>USER ID: {userData.uid}</Col>
+            <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>NAME : {userData.name}</Col>
+            
           </Row>
+          
           <Row style={{ fontSize: "1.4rem" }}>
-            <Col sm style={{ border: "1px solid #274472" }}>EMAIL ID: {userData.email_id}</Col>
-            <Col sm style={{ border: "1px solid #274472" }}>PHONE NUMBER: {userData.phone_no}</Col>
+          <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>USER ID: {userData.uid}</Col>
+            <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>EMAIL ID: {userData.email_id}</Col>
+            
 
           </Row>
           <Row style={{ fontSize: "1.4rem" }}>
-            <Col sm style={{ border: "1px solid #274472" }}>ADDRESS: {userData.address}</Col>
+            <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>PHONE NUMBER: {userData.phone_no}</Col>
+            <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>GENDER: </Col>
+          </Row>
+          
+          <Row style={{ fontSize: "1.4rem" }}>
+            <Col sm style={{ border: "1px solid #274472" ,padding : "1rem"}}>ADDRESS: {userData.address}</Col>
 
           </Row>
         </div>
@@ -55,8 +69,8 @@ function UserInfo() {
             <h1>DO YOU WANT TO? </h1>
           </div>
           <div className='question-right'>
-            <Button variant="outline-info" style={{ marginRight: "1rem" }}>Donate</Button>{' '}
-            <Button variant="outline-success">Receive</Button>{' '}
+            <Button onClick={onDonate} variant="outline-info" style={{ marginRight: "1rem" }}>Donate</Button>{' '}
+            <Button onClick={onReceive} variant="outline-success">Receive</Button>{' '}
           </div>
 
         </div>
