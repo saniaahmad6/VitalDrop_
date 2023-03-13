@@ -7,9 +7,10 @@ SELECT BloodBank.center_id, AdminUsers.name AS manager,
     RIGHT JOIN AdminUsers ON AdminUsers.assigned_center = DonationCenters.id
     GROUP BY bank_id
 ` ,   
+/*
 selectTotalDonatedBlood: `
     SELECT COUNT(*) as total_donated_blood FROM BloodBank
-  `,
+  `,*/
 
 selectAvailableBloodTypes: `
   SELECT BloodBank.blood_type, COUNT(BloodBank.units_available) AS num_of_blood
@@ -18,6 +19,12 @@ selectAvailableBloodTypes: `
   ORDER BY num_of_blood DESC
 `,
 
+selectDonationCenter:`
+SELECT state , adress , pincode, units_available , blood_type
+FROM   DonationCenters INNER JOIN  BloodBank
+ON Bloodbank.center_id = DonationCenters.id
+WHERE state = ('?')
+`
 
 }
 

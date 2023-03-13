@@ -182,6 +182,18 @@ app.get('/user-info', sessionChecker, (req, res) => {
   })
 })
 
+app.put('/user-update',sessionChecker,(req,res)=>{
+  const sql = User.updateUserByEmail
+  const { password, phone, address, e_mail } = req.body
+
+  con.query(sql, [password, phone, address, e_mail], (err, data) => {
+    if (err)  return res.send({ error: true, success: false, message: err.message })
+(res, err)
+
+    res.send({ success: true, message: 'User updated!' })
+  })
+})
+
 app.delete('/user-delete', sessionChecker ,(req,res) => {
   const sql = user_model.DeleteUserById
   con.query((sql,[session.userid]),(err,data)=> {
@@ -244,7 +256,19 @@ app.post('/new-donation', [urlEncodedParser, sessionChecker], (req, res) => {
 
 })
 
+
+app.delete('/delete-donation', sessionChecker ,(req,res) => {
+  con.query(`DELETE FROM Donations WHERE user_id = ${session.userid} `,(err,data)=> {
+    if (err) return res.send({ error: true, success: false, message: err.message }) 
+
+  })
+})
+
+
+
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 
+ 
