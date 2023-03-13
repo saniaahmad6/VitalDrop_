@@ -34,7 +34,22 @@ function Form() {
       console.log('could not login')
     }
   }
+  const [isHover, setIsHover] = useState(false);
 
+   const handleMouseEnter = () => {
+      setIsHover(true);
+   };
+
+   const handleMouseLeave = () => {
+      setIsHover(false);
+   };
+   const boxStyle = {
+    marginTop: '2rem',
+    cursor: 'pointer',
+    backgroundColor: isHover ? '#5F093D': '#B21368',
+    border : isHover ? '#5F093D': '#B21368'
+ };
+  
   return (
     <MDBContainer fluid className="p-3 my-5 custom" style={{ padding: "3rem 3rem" }}>
 
@@ -54,14 +69,16 @@ function Form() {
             <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
             <a href="!#">Forgot password?</a>
           </div>
-          <MDBBtn onClick={loginHandler} className="mb-4 w-100" size="lg">Log in</MDBBtn>
+          <MDBBtn onClick={loginHandler} className="mb-4 w-100" size="lg" >Log in</MDBBtn>
 
           <div className="divider d-flex align-items-center my-4">
             <p className="text-center fw-bold mx-3 mb-0">OR</p>
           </div>
 
           <NavLink to="/login/signup" style={{ color: "black" }}>
-            <MDBBtn className="mb-4 w-100" size="lg" style={{ backgroundColor: '#FB6B90', border: "#FB6B90" }}>
+            <MDBBtn className="mb-4 w-100" size="lg" style={boxStyle}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}>
               Signup
             </MDBBtn>
           </NavLink>

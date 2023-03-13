@@ -48,7 +48,21 @@ function UserSignUp() {
       console.log('could not sign up')
     }
   }
+  const [isHover, setIsHover] = useState(false);
 
+   const handleMouseEnter = () => {
+      setIsHover(true);
+   };
+
+   const handleMouseLeave = () => {
+      setIsHover(false);
+   };
+   const boxStyle = {
+    marginTop: '2rem',
+    cursor: 'pointer',
+    backgroundColor: isHover ? '#5F093D': '#B21368',
+    border : isHover ? '#5F093D': '#B21368'
+ };
   return (
     <MDBContainer fluid className="p-3 my-5 custom" style={{ padding: "3rem 3rem" }}>
 
@@ -80,7 +94,9 @@ function UserSignUp() {
 
 
 
-          <MDBBtn onClick={signupHandler} className="mb-4 w-100" size="lg" style={{ background: "#FB4570", border: "#FB4570" }}>Register</MDBBtn>
+          <MDBBtn onClick={signupHandler} className="mb-4 w-100" size="lg" style={boxStyle}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}>Register</MDBBtn>
 
 
         </MDBCol>
