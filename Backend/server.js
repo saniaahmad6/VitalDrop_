@@ -27,10 +27,49 @@ con.changeUser({ database: mysqlInfo.database }, function (err) {
 });
 
 
+const fs = require('fs')
+const csv = require('csv')
+
+
+con.query("SHOW TABLES LIKE 'Pincodes'", (err, result) => {
+  if (result.length == 0) {
+    // con.query("create table Pincodes(pincode char(6) PRIMARY KEY, )")
+    let columnMap = {}
+    let headerStream = fs.createReadStream('./ProcessedPincodeInfo.csv').pipe(csv.parse({ delimiter: ',', to_line: 1 }))
+    headerStream.on("data", function (row) {
+      row.forEach((col, idx) => {
+        columnMap[col] = idx
+      });
+    })
+    headerStream.on("end", function () {
+      console.log(columnMap)
+      const requiredCols = ['Pincode', 'District', 'StateName']
+      let finalData = []
+      let dataStream = fs.createReadStream('./ProcessedPincodeInfo.csv').pipe(csv.parse({ delimiter: ',', from_line: 2 }))
+      dataStream.on("data", function (row) {
+        let curr = []
+        requiredCols.forEach(col => {
+          curr.push(row[columnMap[col]])
+        });
+        finalData.push(curr)
+      })
+
+      dataStream.on("end", function () {
+        console.log(finalData[0], finalData.length)
+        con.query("CREATE TABLE Pincodes(Pincode char(6) PRIMARY KEY, District varchar(256), StateName varchar(256))", basicQueryCallback)
+        con.query("INSERT INTO Pincodes (Pincode, District, StateName) VALUES ?", [finalData], basicQueryCallback)
+        console.log("Succesfully initialized Pincodes")
+      })
+
+    })
+  }
+})
+
+
 const table_creations = [
   "create table if not exists Users(id int PRIMARY KEY, email_id varchar(255) not null, name varchar(255), password varchar(255), UNIQUE(email_id), address varchar(255) not null, phone_no varchar(10) not null, gender char(10) not null)",
 
-  "create table if not exists DonationCenters(id int PRIMARY KEY, pincode varchar(10) not null, state varchar(255) not null, address varchar(255) not null)",
+  "create table if not exists DonationCenters(id int PRIMARY KEY, pincode char(6) not null, state varchar(255) not null, address varchar(255) not null)",
 
   "create table if not exists AdminUsers(id int PRIMARY KEY, email_id varchar(255) not null, name varchar(255) not null, assigned_center int not null, password varchar(255) not null, UNIQUE(email_id), FOREIGN KEY (assigned_center) REFERENCES DonationCenters(id))",
 
@@ -182,23 +221,95 @@ app.get('/user-info', sessionChecker, (req, res) => {
   })
 })
 
-app.put('/user-update',sessionChecker,(req,res)=>{
+app.put('/user-update', sessionChecker, (req, res) => {
   const sql = User.updateUserByEmail
   const { password, phone, address, e_mail } = req.body
 
   con.query(sql, [password, phone, address, e_mail], (err, data) => {
-    if (err)  return res.send({ error: true, success: false, message: err.message })
-(res, err)
+    if (err) return res.send({ error: true, success: false, message: err.message })
+      (res, err)
 
     res.send({ success: true, message: 'User updated!' })
   })
 })
 
-app.delete('/user-delete', sessionChecker ,(req,res) => {
+app.delete('/user-delete', sessionChecker, (req, res) => {
   const sql = user_model.DeleteUserById
-  con.query((sql,[session.userid]),(err,data)=> {
-    if (err) return res.send({ error: true, success: false, message: err.message })      
+  con.query((sql, [session.userid]), (err, data) => {
+    if (err) return res.send({ error: true, success: false, message: err.message })
   })
+})
+
+app.get('/user-appointments', sessionChecker, (req, res) => {
+  const sql = `
+  SELECT Appointments.slot, DonationCenters.address
+  FROM Donations
+  INNER JOIN Appointments ON Donations.appointment_id = Appointments.id
+  INNER JOIN DonationCenters ON Appointments.center_id = DonationCenters.id
+  WHERE Donations.user_id = ${session.userid};
+  `
+  con.query(sql, (err, data) => {
+    if (err) return res.send({ error: true, success: false, message: err.message })
+    res.send(data)
+  })
+})
+
+app.get('/search-pincode/:pincode', (req, res) => {
+  con.query(`
+  SELECT * from DonationCenters
+   INNER JOIN Pincodes ON Pincodes.Pincode = DonationCenters.pincode 
+   WHERE DonationCenters.pincode = '${req.params.pincode}'`,
+    (err, result) => {
+      if (err) {
+        res.send({ centers: [] })
+      }
+      else {
+        res.send({ centers: result })
+      }
+    })
+})
+
+
+app.get('/search-state/:state/:district', (req, res) => {
+  con.query(`
+  SELECT * from DonationCenters
+   INNER JOIN Pincodes ON Pincodes.Pincode = DonationCenters.pincode 
+   WHERE Pincodes.StateName = '${req.params.state}' AND Pincodes.District = '${req.params.district}'`,
+    (err, result) => {
+      if (err) {
+        res.send({ centers: [] })
+      }
+      else {
+        res.send({ centers: result })
+      }
+    })
+})
+
+app.get('/available-states', (req, res) => {
+  con.query(`SELECT Distinct(StateName) FROM Pincodes`,
+    (err, result) => {
+      if (err) {
+        console.error(err)
+        res.send({ states: [] })
+      }
+      else {
+        console.log(result)
+        res.send({ states: result })
+      }
+    })
+})
+
+
+app.get('/available-districts/:state', (req, res) => {
+  con.query(`SELECT Distinct(District) FROM Pincodes WHERE StateName = '${req.params.state}'`,
+    (err, result) => {
+      if (err) {
+        res.send({ districts: [] })
+      }
+      else {
+        res.send({ districts: result })
+      }
+    })
 })
 
 
@@ -242,12 +353,12 @@ app.post('/new-donation', [urlEncodedParser, sessionChecker], (req, res) => {
       }
       else {
         con.query(placeModelArgs(Donation.insertDonor, [session.userid, req.body.appointmentId, "Initialized", req.body.bloodGroup]), (err, result) => {
-          if(err){
+          if (err) {
             console.error(err)
             res.send({ error: true, message: "DB error" })
           }
           else {
-            res.send({register : true})
+            res.send({ register: true })
           }
         })
       }
@@ -257,9 +368,9 @@ app.post('/new-donation', [urlEncodedParser, sessionChecker], (req, res) => {
 })
 
 
-app.delete('/delete-donation', sessionChecker ,(req,res) => {
-  con.query(`DELETE FROM Donations WHERE user_id = ${session.userid} `,(err,data)=> {
-    if (err) return res.send({ error: true, success: false, message: err.message }) 
+app.delete('/delete-donation', sessionChecker, (req, res) => {
+  con.query(`DELETE FROM Donations WHERE user_id = ${session.userid} `, (err, data) => {
+    if (err) return res.send({ error: true, success: false, message: err.message })
 
   })
 })
@@ -271,4 +382,3 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 
- 

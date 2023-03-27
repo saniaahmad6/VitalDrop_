@@ -1,10 +1,10 @@
 import "./HeroprojStyles.css"
 
-function Heroproj(props){
+function Heroproj(props) {
 
     return (
-        
-          <div className="hero-img" style={{backgroundImage: `url(${props.image})` ,backgroundSize: "cover"}}>
+
+        <div className="hero-img" style={{ backgroundImage: `url(${props.image})`, backgroundSize: "cover" }}>
             <div className="heading">
                 <h1>
                     {props.heading}
@@ -12,9 +12,12 @@ function Heroproj(props){
                 <p>
                     {props.text}
                 </p>
+                <div className="text-center">
+                    {props.children}
+                </div>
             </div>
-          </div>  
-        
+        </div>
+
     );
 
 }
