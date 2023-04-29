@@ -30,38 +30,38 @@ import {
 import { SearchByMap } from "../components/Map/SearchByMap";
 
 const SearchResults = ({ results }) => {
-    return (
-        <div className="map" id="map" >
-            {results.length > 0 ? (
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Pincode</th>
-                            <th>State</th>
-                            <th>District</th>
-                            <th>Address</th>
-                            <th>Map</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {results.map((result, idx) => (
-                            <tr key={result.id}>
-                                <td>{idx}</td>
-                                <td>{result.Pincode}</td>
-                                <td>{result.StateName}</td>
-                                <td>{result.District}</td>
-                                <td>{result.address}</td>
-                                <td style={{color: 'blue'}}><a target='_blank' rel="noreferrer noopener" href={`/map/${result.id}`}>Click</a></td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
-            ) : (
-                <p>No results found.</p>
-            )}
-        </div>
-    );
+  return (
+    <>
+      {results.length > 0 ? (
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Pincode</th>
+              <th>State</th>
+              <th>District</th>
+              <th>Address</th>
+              <th>Map</th>
+            </tr>
+          </thead>
+          <tbody>
+            {results.map((result, idx) => (
+              <tr key={result.id}>
+                <td>{idx}</td>
+                <td>{result.Pincode}</td>
+                <td>{result.StateName}</td>
+                <td>{result.District}</td>
+                <td>{result.address}</td>
+                <td style={{color: 'blue'}}><a target='_blank' rel="noreferrer noopener" href={`/map/${result.id}`}>Click</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      ) : (
+        <p>No results found.</p>
+      )}
+    </>
+  );
 };
 
 const SearchByState = () => {
@@ -261,75 +261,51 @@ const SearchBy = () => {
     // call a function to update the search type in the parent component
   };
 
-    const chooseSearch = () => {
-        switch (radioValue) {
-            case 'state':
-                return <SearchByState></SearchByState>
-            case 'pincode':
-                return <SearchByPincode></SearchByPincode>
-            case 'map':
-                return <SearchByMap></SearchByMap>
-            default:
-                console.error(`unexpected radio value = ${radioValue}`)
-                break;
-        }
-        return <div></div>
+  const styles = {
+    state:{
+      backgroundColor : radioValue==="state"?  '#821D30' :  "white",
+      borderColor: radioValue==="state"?  '#821D30' :  "white",
+      color: radioValue!=="state"?  'black' :  "white"
+    },
+    pincode :{
+      backgroundColor : radioValue==="pincode"?  '#821D30' :  "white",
+      borderColor: radioValue!=="pincode"?  '#821D30' :  "white",
+      color: radioValue!=="pincode"?  'black' :  "white"
     }
-    const styles = {
-      state:{
-        backgroundColor : radioValue==="state"?  '#821D30' :  "white",
-        borderColor: radioValue!=="state"?  '#821D30' :  "white",
-        color: radioValue!=="state"?  'black' :  "white"
-      },
-      pincode :{
-        backgroundColor : radioValue==="pincode"?  '#821D30' :  "white",
-        borderColor: radioValue!=="pincode"?  '#821D30' :  "white",
-        color: radioValue!=="pincode"?  'black' :  "white"
-      },
-      map :{
-        backgroundColor : radioValue==="map"?  '#821D30' :  "white",
-        borderColor: radioValue!=="map"?  '#821D30' :  "white",
-        color: radioValue!=="map"?  'black' :  "white"
-      }
-      
-  
-      
-    };
-    return (<>
-        <ButtonGroup>
-            <ToggleButton style={styles.state}
-                type="radio"
-                variant="outline-primary"
-                name="radio"
-                value="state"
-                checked={radioValue === 'state'}
-                onClick={() => handleChange('state')}
-            >
-                Search by state
-            </ToggleButton>
-            <ToggleButton style={styles.pincode}
-                type="radio"
-                variant="outline-primary"
-                name="radio"
-                value="pincode"
-                checked={radioValue === 'pincode'}
-                onClick={() => handleChange('pincode')}
-            >
-                Search by pincode
-            </ToggleButton>
-            <ToggleButton style={styles.map}
-                type="radio"
-                variant="outline-primary"
-                name="radio"
-                value="map"
-                checked={radioValue === 'map'}
-                onClick={() => handleChange('map')}
-            >
-                Search by map
-            </ToggleButton>
-        </ButtonGroup>
-        {chooseSearch()}
-        {/* {radioValue == 'state' ? <SearchByState></SearchByState> : <SearchByPincode></SearchByPincode>} */}
+    
+
+    
+  };
+
+  return (
+    <>
+      <ButtonGroup>
+        <ToggleButton style={styles.state}
+          type="radio"
+          variant="outline-primary"
+          name="radio"
+          value="state"
+          checked={radioValue === "state"}
+          onClick={() => handleChange("state")}
+        >
+          Search by state
+        </ToggleButton>
+        <ToggleButton style={styles.pincode}
+          type="radio"
+          variant="outline-primary"
+          name="radio"
+          value="pincode"
+          checked={radioValue === "pincode"}
+          onClick={() => handleChange("pincode")}
+        >
+          Search by pincode
+        </ToggleButton>
+      </ButtonGroup>
+      {radioValue === "state" ? (
+        <SearchByState></SearchByState>
+      ) : (
+        <SearchByPincode></SearchByPincode>
+      )}
     </>
   );
 };
@@ -348,12 +324,7 @@ function Search() {
       >
         <MDBRow>
           <MDBCol col="10" md="6">
-            <img
-              src={IMG}
-              class="img-fluid"
-              alt="Phone image"
-              style={{ width: "100%", padding: "2rem" }}
-            />
+            <SearchByMap></SearchByMap>
           </MDBCol>
 
           <MDBCol col="4" md="6" style={{ padding: "2rem" }}>
