@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const mysqlInfo = {
   user: 'root',
   host: 'localhost',
-  password: 'Md@9536796532',
+  password: 'password',
   database: 'VitalDropDB'
 }
 
@@ -130,6 +130,33 @@ con.query("SHOW COLUMNS FROM `DonationCenters` LIKE 'latitude'", (err, result) =
 con.query("ALTER TABLE DonationCenters MODIFY latitude DOUBLE NOT NULL", basicQueryCallback);
 con.query("ALTER TABLE DonationCenters MODIFY longitude DOUBLE NOT NULL", basicQueryCallback);
 
+con.query("SHOW COLUMNS FROM `DonationCenters` LIKE 'latitude'", (err, result) => {
+  if (err)
+    throw err
+  if (result.length == 0) {
+    con.query("ALTER TABLE DonationCenters ADD COLUMN latitude DOUBLE, ADD COLUMN longitude DOUBLE", (err2, result2) => {
+      if (err2) {
+        throw err2
+      }
+    })
+  }
+})
+
+con.query("SHOW COLUMNS FROM Appointments LIKE 'count'", (err0, result0) => {
+  if (err0)
+    throw err0
+  if (result0.length == 0) {
+    con.query("ALTER TABLE Appointments ADD COLUMN count int not null", (err1, result1) => {
+      if (err1)
+        throw (err1)
+      con.query(`UPDATE Appointments SET count = 50`, (err, result) => {
+        if (err)
+          throw err
+      })
+    })
+  }
+})
+
 con.query("SELECT id FROM DonationCenters", (err, result) => {
   if (err)
     throw err
@@ -203,7 +230,7 @@ app.post('/login', urlEncodedParser, (req, res) => {
         res.send({ login: false, err: "DB ERROR" })
       }
       else {
-        if (result.length ==0) {
+        if (result.length == 0) {
           res.send({ login: false, err: "EMAIL NOT REGISTERED" })
         }
         else {
@@ -441,41 +468,6 @@ app.post('/new-donation', [urlEncodedParser, sessionChecker], (req, res) => {
 
 })
 
-app.delete('/delete-donation', sessionChecker, (req, res) => {
-  con.query(`DELETE FROM Donations WHERE user_id = ${session.userid} `, (err, data) => {
-    if (err) return res.send({ error: true, success: false, message: err.message })
-
-  })
-})
-
-app.get('/admin-info', (req, res) => {
-  con.query(`SELECT * FROM AdminUsers INNER JOIN DonationCenters WHERE AdminUsers.assigned_center = DonationCenters.id and AdminUsers.id = ${session.userid};`, (err, data) => {
-    if (err) return res.send({ error: true, success: false, message: err.message })
-    res.send(data)
-  })
-})
-
-
-
-app.delete('/delete-admin', sessionChecker, (req, res) => {
-  con.query(`DELETE AdminUsers, DonationCenters FROM AdminUsers INNER JOIN DonationCenters WHERE AdminUsers.assigned_center = DonationCenters.id and AdminUsers.id = ${session.userid}; `, (err, data) => {
-    if (err) return res.send({ error: true, success: false, message: err.message })
-
-  })
-})
-
-app.put('/admin-update', sessionChecker, (req, res) => {
-  const sql = `UPDATE AdminUsers SET email_id = (?) , password = (?) , name =(?)
-  WHERE AdminUsers.id = ${adminSession.id}; `
-  const { e_mail, password, name } = req.body
-  con.query(sql, [e_mail, password, name], (err, data) => {
-    if (err) return res.send({ error: true, success: false, message: err.message })
-      (res, err)
-
-    res.send({ success: true, message: 'AdminUser updated!' })
-  })
-})
-
 async function createDonationCenter({ pincode, state, address, latitude, longitude }, { email_id, name, password }) {
   let prom = new Promise((resolver, rejector) => {
     con.query(`SELECT * FROM AdminUsers WHERE email_id = '${email_id}'`, (error0, result0) => {
@@ -561,8 +553,8 @@ app.post('/admin-login', urlEncodedParser, (req, res) => {
           let stored = result[0]
           if (req.body.password == stored.password) {
             adminSession = req.session;
-            adminSession.id = stored.id;
-            adminSession.centerId = stored.center_id
+            adminSession.userid = stored.id;
+            adminSession.centerId = stored.assigned_center
             res.send({ login: true });
           }
           else {
@@ -580,6 +572,79 @@ app.get('/admin-logout', (req, res) => {
   res.send()
 });
 
+const adminChecker = (req, res, next) => {
+  if (req.session &&  adminSession.userid) {
+    console.log(`Found Admin Session`);
+    next();
+  } else {
+    console.log(`No Admin Session Found`);
+    res.send({ error: true, redirect: '/adminlogin' });
+  }
+};
+
+app.delete('/delete-donation', adminChecker, (req, res) => {
+  con.query(`DELETE FROM Donations WHERE user_id = ${session.userid} `, (err, data) => {
+    if (err) return res.send({ error: true, success: false, message: err.message })
+
+  })
+})
+
+app.get('/admin-info', adminChecker, (req, res) => {
+  con.query(`SELECT * FROM AdminUsers INNER JOIN DonationCenters WHERE AdminUsers.assigned_center = DonationCenters.id and AdminUsers.id = ${adminSession.userid};`, (err, data) => {
+    if (err) return res.send({ error: true, success: false, message: err.message })
+    delete data[0]['password']
+    res.send(data[0])
+  })
+})
+
+
+
+app.delete('/delete-admin', adminChecker, (req, res) => {
+  con.query(`DELETE AdminUsers, DonationCenters FROM AdminUsers INNER JOIN DonationCenters WHERE AdminUsers.assigned_center = DonationCenters.id and AdminUsers.id = ${session.userid}; `, (err, data) => {
+    if (err) return res.send({ error: true, success: false, message: err.message })
+
+  })
+})
+
+
+app.post('/add-appointment', [adminChecker, urlEncodedParser], (req, res) => {
+  if (req.body.date && req.body.count) {
+    con.query(`INSERT INTO Appointments(center_id, slot, count) values(${adminSession.centerId}, '${req.body.date}', ${req.body.count})`, (err, result) => {
+      if(err)
+        throw err
+      else
+        console.log("SUCCESFULLY ADDED APPOINTMENT")
+    })
+  }
+})
+
+app.get('/admin-info', adminChecker, (req, res) => {
+  con.query(`SELECT * FROM AdminUsers INNER JOIN DonationCenters WHERE AdminUsers.assigned_center = DonationCenters.id and AdminUsers.id = ${adminSession.userid};`, (err, data) => {
+    if (err) return res.send({ error: true, success: false, message: err.message })
+    delete data[0]['password']
+    res.send(data[0])
+  })
+})
+
+app.delete('/delete-admin', adminChecker, (req, res) => {
+  con.query(`DELETE AdminUsers, DonationCenters FROM AdminUsers INNER JOIN DonationCenters WHERE AdminUsers.assigned_center = DonationCenters.id and AdminUsers.id = ${adminSession.userid}; `, (err, data) => {
+    if (err) return res.send({ error: true, success: false, message: err.message })
+
+  })
+})
+
+app.put('/admin-update', (req, res) => {
+  const sql = `UPDATE AdminUsers SET email_id = (?) , password = (?) , name =(?)
+  WHERE AdminUsers.id = ${adminSession.userid}; `
+  const { e_mail, password, name } = req.body
+  con.query(sql, [e_mail, password, name], (err, data) => {
+    if (err) return res.send({ error: true, success: false, message: err.message })
+      (res, err)
+
+    res.send({ success: true, message: 'AdminUser updated!' })
+  })
+})
+
 // for showing all donations yet to be confirmed or rejected on AdminUser profile page.
 app.get('/admin-donations', sessionChecker, (req , res) => {
   const sql=`SELECT Donations.user_id, Users.name, Donations.blood_type  
@@ -595,7 +660,7 @@ app.get('/admin-donations', sessionChecker, (req , res) => {
 })
 
 // for showing all recipients requests yet to be confirmed or rejected on AdminUser profile page.
-app.get('/admin-recipients', sessionChecker, (req, res) => {
+app.get('/admin-recipients', adminChecker, (req, res) => {
   const sql = `SELECT Requests.user_id, Users.name, Requests.blood_type, Requests.amount
   FROM Requests
   INNER JOIN Users ON Requests.user_id = Users.id
@@ -604,6 +669,25 @@ app.get('/admin-recipients', sessionChecker, (req, res) => {
   con.query(sql, (err, data) => {
     if (err) return res.send({ error: true, success: false, message: err.message })
     res.send(data)
+  })
+})
+
+app.get('/center-appointments/:centerId', adminChecker, (req, res) => {
+  con.query(`SELECT * FROM Appointments WHERE center_id = ${req.params.centerId}`, (err, result) => {
+    if (err) {
+      res.send([])
+      return;
+    }
+    res.send(result)
+  })
+})
+
+app.get('/appointment-donations/:appointmentId', adminChecker, (req, res) => {
+  con.query(`SELECT Donations.*, Users.name FROM Donations INNER JOIN Users ON Users.id = Donations.user_id WHERE appointment_id = ${req.params.appointmentId}`, (err, result) => {
+    if (err) {
+      res.send([])
+    }
+    res.send(result)
   })
 })
 
