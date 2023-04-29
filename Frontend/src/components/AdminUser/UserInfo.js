@@ -236,7 +236,7 @@ function AppointmentsTable() {
       headerName: "Date",
       width: 150,
       editable: false
-    },
+    }
     
     
   ];
@@ -398,6 +398,55 @@ const appointmentsData = [
   //   status: "Pending",
   // },
 ];
+function BloodBank() {
+  const [clickedRow, setClickedRow] = useState();
+  const onButtonClick = (e, row) => {
+    e.stopPropagation();
+    setClickedRow(row);
+  };
+  
+
+  const columns = [
+    
+    {
+      field: "bloodType",
+      headerName: "Blood Type",
+      width: 200,
+      editable: false
+    },
+    {
+      field: "units",
+      headerName: "Units",
+      type : "number",
+      width:150,
+      editable: false
+    }
+  ];
+  const rows = [
+    { id: 1, Name: "Rahul Manchanda", bloodType: "A+", appointmentId: 35 },
+    { id: 2, Name: "Kiran Dev", bloodType: "A-", appointmentId: 42 },
+    { id: 3, Name: "Priya Yadav", bloodType: "B+", appointmentId: 41 },
+    { id: 4, Name: "Sania Sachdeva", bloodType: "B+", appointmentId: 21 },
+    { id: 5, Name: "Priya Dev", bloodType: "O-", appointmentId: 34 },
+    { id: 6, Name: "Sonal Mehrotra", bloodType: "B+", appointmentId: 20 },
+    { id: 7, Name: "Raghav Chaddha", bloodType: "B+", appointmentId: 11 }
+  ];
+
+  return (
+    <div>
+      <Box sx={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={2}
+          rowsPerPageOptions={[5]}
+        />
+      </Box>
+      clickedRow: {clickedRow ? `${clickedRow.id}` : null}
+    </div>
+  );
+};
+
 
 function UserInfo() {
   const navigator = useNavigate()
@@ -445,6 +494,9 @@ function UserInfo() {
     },
     grid :{
       width : "100%"
+    },
+    bloodbank : {
+      padding: "5% 30% 5%"
     }
   };
   return (
@@ -493,6 +545,21 @@ function UserInfo() {
                 
                   <h3>Requests</h3>
                   <Requests style={styles.datagrid}/>
+                </Col>  
+                </Row>
+                    
+                    
+                    
+                    
+                    
+                    
+                
+            </Container>
+            <Container>
+                <Row style={styles.bloodbank}>
+                <Col xs={12} md={12} >
+                  <h3>Blood Bank</h3> 
+                  <BloodBank style={styles.datagrid}></BloodBank>
                 </Col>  
                 </Row>
                     
