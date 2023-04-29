@@ -6,9 +6,11 @@ import IMAGE from "../components/Search/hero.jpg"
 import React, { useEffect, useState } from 'react';
 import { ButtonGroup, Container, ToggleButton, Form, Button, Row, Table } from 'react-bootstrap';
 
+import { SearchByMap } from "../components/Map/SearchByMap";
+
 const SearchResults = ({ results }) => {
     return (
-        <>
+        <div className="map" id="map" >
             {results.length > 0 ? (
                 <Table striped bordered hover>
                     <thead>
@@ -18,6 +20,7 @@ const SearchResults = ({ results }) => {
                             <th>State</th>
                             <th>District</th>
                             <th>Address</th>
+                            <th>Map</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,6 +31,7 @@ const SearchResults = ({ results }) => {
                                 <td>{result.StateName}</td>
                                 <td>{result.District}</td>
                                 <td>{result.address}</td>
+                                <td style={{color: 'blue'}}><a target='_blank' rel="noreferrer noopener" href={`/map/${result.id}`}>Click</a></td>
                             </tr>
                         ))}
                     </tbody>
@@ -35,7 +39,7 @@ const SearchResults = ({ results }) => {
             ) : (
                 <p>No results found.</p>
             )}
-        </>
+        </div>
     );
 };
 
@@ -174,6 +178,21 @@ const SearchBy = () => {
         // call a function to update the search type in the parent component
     };
 
+    const chooseSearch = () => {
+        switch (radioValue) {
+            case 'state':
+                return <SearchByState></SearchByState>
+            case 'pincode':
+                return <SearchByPincode></SearchByPincode>
+            case 'map':
+                return <SearchByMap></SearchByMap>
+            default:
+                console.error(`unexpected radio value = ${radioValue}`)
+                break;
+        }
+        return <div></div>
+    }
+
     return (<>
         <ButtonGroup>
             <ToggleButton
@@ -196,8 +215,19 @@ const SearchBy = () => {
             >
                 Search by pincode
             </ToggleButton>
+            <ToggleButton
+                type="radio"
+                variant="outline-primary"
+                name="radio"
+                value="map"
+                checked={radioValue === 'map'}
+                onClick={() => handleChange('map')}
+            >
+                Search by map
+            </ToggleButton>
         </ButtonGroup>
-        {radioValue == 'state' ? <SearchByState></SearchByState> : <SearchByPincode></SearchByPincode>}
+        {chooseSearch()}
+        {/* {radioValue == 'state' ? <SearchByState></SearchByState> : <SearchByPincode></SearchByPincode>} */}
     </>
 
     );
