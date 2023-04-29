@@ -3,11 +3,7 @@ const mysql = require('mysql');
 const mysqlInfo = {
   user: 'root',
   host: 'localhost',
-<<<<<<< HEAD
-  password: 'abcdef',
-=======
   password: 'Md@9536796532',
->>>>>>> 400175e11bc536dcdb7f668c2ec4c7c7cbd5a51c
   database: 'VitalDropDB'
 }
 
@@ -585,7 +581,7 @@ app.get('/admin-logout', (req, res) => {
 });
 
 // for showing all donations yet to be confirmed or rejected on AdminUser profile page.
-app.get('/admin-donations',sessionChecker,(req,res)=>{
+app.get('/admin-donations', sessionChecker, (req , res) => {
   const sql=`SELECT Donations.user_id, Users.name, Donations.blood_type  
   FROM Donations
   INNER JOIN Appointments ON Donations.appointment_id = Appointments.id
