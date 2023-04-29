@@ -6,7 +6,7 @@ import IMAGE from "../components/AdminUser/hero.jpg"
 function AdminUser(){
     return <>
         <Navbar/>
-        <Heroproj heading = "" text="" image={IMAGE}/>
+        <Heroproj heading = "Welcome back!" text="" image={IMAGE}/>
         <AdminUserInfo/>
         <Footer/>
     </>

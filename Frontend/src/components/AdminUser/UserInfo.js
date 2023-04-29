@@ -496,7 +496,7 @@ function UserInfo() {
       width : "100%"
     },
     bloodbank : {
-      padding: "5% 30% 5%"
+      padding: "5% 20% 5%"
     }
   };
   return (
@@ -518,6 +518,19 @@ function UserInfo() {
             </Row>
           </Container>
 
+          
+          <Container style={{alignItems :"center" ,fontSize : "1.1rem", margin: "5% 0 0", paddingLeft: "5%"}}>
+          <ButtonGroup >
+              <input type="text" placeholder="dd-mm-yyyy" style={{marginRight: "1rem"}}  />
+              <input type="text" placeholder="Slots" style={{marginRight: "1rem"}} />
+              
+          </ButtonGroup>
+            <br></br>
+            <Button type="submit" variant='contained' style ={{backgroundColor : "#821D30" ,margin :"2% 0 0", marginRight: "1rem"}}>Add</Button>
+          </Container>
+          
+            
+              
           
           <Container>
                 <Row style={styles.datagrid}>

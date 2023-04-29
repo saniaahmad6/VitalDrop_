@@ -19,7 +19,7 @@ const Appointments = ({ appointments }) => {
               <tr>
                 <th>#</th>
                 <th>Date</th>
-                <th>Time</th>
+                <th>Address</th>
                 <th>Status</th>
               </tr>
             </thead>
