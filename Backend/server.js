@@ -375,7 +375,21 @@ app.delete('/delete-donation', sessionChecker, (req, res) => {
   })
 })
 
+app.get('/admin-info', (req, res) => {
+  con.query(`SELECT * FROM AdminUsers INNER JOIN DonationCenters WHERE AdminUsers.assigned_center = DonationCenters.id and AdminUsers.id = ${session.userid};`, (err, data) => {
+    if (err) return res.send({ error: true, success: false, message: err.message })
+    res.send(data)
+  })
+})
 
+
+
+app.delete('/delete-admin', sessionChecker, (req, res) => {
+  con.query(`DELETE AdminUsers, DonationCenters FROM AdminUsers INNER JOIN DonationCenters WHERE AdminUsers.assigned_center = DonationCenters.id and AdminUsers.id = ${session.userid}; `, (err, data) => {
+    if (err) return res.send({ error: true, success: false, message: err.message })
+
+  })
+})
 
 
 app.listen(port, () => {
