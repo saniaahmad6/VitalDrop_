@@ -466,7 +466,7 @@ app.delete('/delete-admin', sessionChecker, (req, res) => {
 
 app.put('/admin-update', sessionChecker, (req, res) => {
   const sql = `UPDATE AdminUsers SET email_id = (?) , password = (?) , name =(?)
-  WHERE AdminUsers.id = ${session.userid}; `
+  WHERE AdminUsers.id = ${adminSession.id}; `
   const { e_mail, password, name } = req.body
   con.query(sql, [e_mail, password, name], (err, data) => {
     if (err) return res.send({ error: true, success: false, message: err.message })
@@ -586,7 +586,20 @@ app.get('/admin-donations', sessionChecker, (req , res) => {
   FROM Donations
   INNER JOIN Appointments ON Donations.appointment_id = Appointments.id
   INNER JOIN Users ON Donations.user_id = Users.id
-  WHERE Donations.status ='Initialized' AND Appointments.center_id = ${session.assigned_center};`
+  WHERE Donations.status ='Initialized' AND Appointments.center_id = ${adminSession.centerId};`
+
+  con.query(sql, (err, data) => {
+    if (err) return res.send({ error: true, success: false, message: err.message })
+    res.send(data)
+  })
+})
+
+// for showing all recipients requests yet to be confirmed or rejected on AdminUser profile page.
+app.get('/admin-recipients', sessionChecker, (req, res) => {
+  const sql = `SELECT Requests.user_id, Users.name, Requests.blood_type, Requests.amount
+  FROM Requests
+  INNER JOIN Users ON Requests.user_id = Users.id
+  WHERE Requests.status = 'Initialized' AND Requests.center_id = ${adminSession.centerId};`
 
   con.query(sql, (err, data) => {
     if (err) return res.send({ error: true, success: false, message: err.message })
