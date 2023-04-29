@@ -3,11 +3,7 @@ const mysql = require('mysql');
 const mysqlInfo = {
   user: 'root',
   host: 'localhost',
-<<<<<<< HEAD
-  password: 'abcdef',
-=======
   password: 'Md@9536796532',
->>>>>>> 400175e11bc536dcdb7f668c2ec4c7c7cbd5a51c
   database: 'VitalDropDB'
 }
 
@@ -277,7 +273,7 @@ app.delete('/user-delete', sessionChecker, (req, res) => {
   const sql = user_model.DeleteUserById
   con.query((sql, [session.userid]), (err, data) => {
     if (err) return res.send({ error: true, success: false, message: err.message })
-  })
+  })  
 })
 
 app.get('/user-appointments', sessionChecker, (req, res) => {
@@ -472,6 +468,20 @@ app.put('/admin-update',sessionChecker,(req,res)=>{
       (res, err)
 
     res.send({ success: true, message: 'AdminUser updated!' })
+  })
+})
+
+// for showing all donations yet to be confirmed or rejected on AdminUser profile page.
+app.get('/admin-donations',sessionChecker,(req,res)=>{
+  const sql=`SELECT Donations.user_id, Users.name, Donations.blood_type  
+  FROM Donations
+  INNER JOIN Appointments ON Donations.appointment_id = Appointments.id
+  INNER JOIN Users ON Donations.user_id = Users.id
+  WHERE Donations.status ='Initialized' AND Appointments.center_id = ${session.assigned_center};`
+
+  con.query(sql, (err, data) => {
+    if (err) return res.send({ error: true, success: false, message: err.message })
+    res.send(data)
   })
 })
 
