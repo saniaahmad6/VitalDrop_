@@ -30,38 +30,38 @@ import {
 import { SearchByMap } from "../components/Map/SearchByMap";
 
 const SearchResults = ({ results }) => {
-    return (
-        <div className="map" id="map" >
-            {results.length > 0 ? (
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Pincode</th>
-                            <th>State</th>
-                            <th>District</th>
-                            <th>Address</th>
-                            <th>Map</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {results.map((result, idx) => (
-                            <tr key={result.id}>
-                                <td>{idx}</td>
-                                <td>{result.Pincode}</td>
-                                <td>{result.StateName}</td>
-                                <td>{result.District}</td>
-                                <td>{result.address}</td>
-                                <td style={{color: 'blue'}}><a target='_blank' rel="noreferrer noopener" href={`/map/${result.id}`}>Click</a></td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
-            ) : (
-                <p>No results found.</p>
-            )}
-        </div>
-    );
+  return (
+    <>
+      {results.length > 0 ? (
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Pincode</th>
+              <th>State</th>
+              <th>District</th>
+              <th>Address</th>
+              <th>Map</th>
+            </tr>
+          </thead>
+          <tbody>
+            {results.map((result, idx) => (
+              <tr key={result.id}>
+                <td>{idx}</td>
+                <td>{result.Pincode}</td>
+                <td>{result.StateName}</td>
+                <td>{result.District}</td>
+                <td>{result.address}</td>
+                <td style={{color: 'blue'}}><a target='_blank' rel="noreferrer noopener" href={`/map/${result.id}`}>Click</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      ) : (
+        <p>No results found.</p>
+      )}
+    </>
+  );
 };
 
 const SearchByState = () => {
@@ -329,12 +329,7 @@ function Search() {
       >
         <MDBRow>
           <MDBCol col="10" md="6">
-            <img
-              src={IMG}
-              class="img-fluid"
-              alt="Phone image"
-              style={{ width: "100%", padding: "2rem" }}
-            />
+            <SearchByMap></SearchByMap>
           </MDBCol>
 
           <MDBCol col="4" md="6" style={{ padding: "2rem" }}>

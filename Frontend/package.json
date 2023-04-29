@@ -14,7 +14,7 @@
     "ag-grid-react": "^29.3.3",
     "bootstrap": "^5.2.3",
     "font-awesome": "^4.7.0",
-    "i": "^0.3.7",
+    "leaflet": "^1.9.3",
     "leaflet-routing-machine": "^3.2.12",
     "mdb-react-ui-kit": "^5.1.0",
     "react": "^18.2.0",

@@ -200,7 +200,70 @@ function Requests() {
 }
 
 
+function AppointmentsTable() {
+  const [clickedRow, setClickedRow] = useState();
+  const onButtonClick = (e, row) => {
+    e.stopPropagation();
+    setClickedRow(row);
+  };
+  
 
+  const columns = [
+    
+    
+    {
+      field: "appointmentId",
+      headerName: "AppointmentId",
+      type: "number",
+      width: 150,
+      editable: false
+    },
+    {
+      field : "userid",
+      headerName : "User ID",
+      type: "number",
+      width: 150,
+      editable: false
+    }
+    ,{
+      field: "name",
+      headerName: "Donor Name",
+      width: 200,
+      editable: false
+    },
+    {
+      field: "date",
+      headerName: "Date",
+      width: 150,
+      editable: false
+    }
+    
+    
+  ];
+  const rows = [
+    { id: 1, Name: "Rahul Manchanda", bloodType: "A+", appointmentId: 35 },
+    { id: 2, Name: "Kiran Dev", bloodType: "A-", appointmentId: 42 },
+    { id: 3, Name: "Priya Yadav", bloodType: "B+", appointmentId: 41 },
+    { id: 4, Name: "Sania Sachdeva", bloodType: "B+", appointmentId: 21 },
+    { id: 5, Name: "Priya Dev", bloodType: "O-", appointmentId: 34 },
+    { id: 6, Name: "Sonal Mehrotra", bloodType: "B+", appointmentId: 20 },
+    { id: 7, Name: "Raghav Chaddha", bloodType: "B+", appointmentId: 11 }
+  ];
+
+  return (
+    <div>
+      <Box sx={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={4}
+          rowsPerPageOptions={[5]}
+        />
+      </Box>
+      clickedRow: {clickedRow ? `${clickedRow.id}` : null}
+    </div>
+  );
+}
 const Appointments = ({ appointments }) => {
   return (
     <Container>
@@ -233,6 +296,94 @@ const Appointments = ({ appointments }) => {
   );
 };
 
+function FreeSlots() {
+  const [clickedRow, setClickedRow] = useState();
+  const onButtonClick = (e, row) => {
+    e.stopPropagation();
+    setClickedRow(row);
+  };
+  
+
+  const columns = [
+    
+    {
+      field: "appointmentId",
+      headerName: "AppointmentId",
+      type: "number",
+      width: 200,
+      editable: false
+    },
+    {
+      field: "date",
+      headerName: "Date",
+      width:150,
+      editable: false
+    },
+    {
+      field: "freeslots",
+      headerName: "Free Slots",
+      type: "number",
+      width: 200,
+      editable: false
+    }
+  ];
+  const rows = [
+    { id: 1, Name: "Rahul Manchanda", bloodType: "A+", appointmentId: 35 },
+    { id: 2, Name: "Kiran Dev", bloodType: "A-", appointmentId: 42 },
+    { id: 3, Name: "Priya Yadav", bloodType: "B+", appointmentId: 41 },
+    { id: 4, Name: "Sania Sachdeva", bloodType: "B+", appointmentId: 21 },
+    { id: 5, Name: "Priya Dev", bloodType: "O-", appointmentId: 34 },
+    { id: 6, Name: "Sonal Mehrotra", bloodType: "B+", appointmentId: 20 },
+    { id: 7, Name: "Raghav Chaddha", bloodType: "B+", appointmentId: 11 }
+  ];
+
+  return (
+    <div>
+      <Box sx={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={3}
+          rowsPerPageOptions={[5]}
+        />
+      </Box>
+      clickedRow: {clickedRow ? `${clickedRow.id}` : null}
+    </div>
+  );
+};
+
+// const Appointments = ({ appointments }) => {
+//   return (
+//     <Container>
+//       <Row>
+//         <Col>
+//           <h1>Appointments</h1>
+//           <Table striped bordered hover>
+//             <thead>
+//               <tr>
+//                 <th>#</th>
+//                 <th>Date</th>
+//                 <th>Time</th>
+//                 <th>Status</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               {appointments.map((appointment, index) => (
+//                 <tr key={index}>
+//                   <td>{index + 1}</td>
+//                   <td>{appointment.date}</td>
+//                   <td>{appointment.location}</td>
+//                   <td>{appointment.status}</td>
+//                 </tr>
+//               ))}
+//             </tbody>
+//           </Table>
+//         </Col>
+//       </Row>
+//     </Container>
+//   );
+// };
+
 const appointmentsData = [
   // {
   //   id: 1,
@@ -247,6 +398,55 @@ const appointmentsData = [
   //   status: "Pending",
   // },
 ];
+function BloodBank() {
+  const [clickedRow, setClickedRow] = useState();
+  const onButtonClick = (e, row) => {
+    e.stopPropagation();
+    setClickedRow(row);
+  };
+  
+
+  const columns = [
+    
+    {
+      field: "bloodType",
+      headerName: "Blood Type",
+      width: 200,
+      editable: false
+    },
+    {
+      field: "units",
+      headerName: "Units",
+      type : "number",
+      width:150,
+      editable: false
+    }
+  ];
+  const rows = [
+    { id: 1, Name: "Rahul Manchanda", bloodType: "A+", appointmentId: 35 },
+    { id: 2, Name: "Kiran Dev", bloodType: "A-", appointmentId: 42 },
+    { id: 3, Name: "Priya Yadav", bloodType: "B+", appointmentId: 41 },
+    { id: 4, Name: "Sania Sachdeva", bloodType: "B+", appointmentId: 21 },
+    { id: 5, Name: "Priya Dev", bloodType: "O-", appointmentId: 34 },
+    { id: 6, Name: "Sonal Mehrotra", bloodType: "B+", appointmentId: 20 },
+    { id: 7, Name: "Raghav Chaddha", bloodType: "B+", appointmentId: 11 }
+  ];
+
+  return (
+    <div>
+      <Box sx={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={2}
+          rowsPerPageOptions={[5]}
+        />
+      </Box>
+      clickedRow: {clickedRow ? `${clickedRow.id}` : null}
+    </div>
+  );
+};
+
 
 function UserInfo() {
   const navigator = useNavigate()
@@ -294,6 +494,9 @@ function UserInfo() {
     },
     grid :{
       width : "100%"
+    },
+    bloodbank : {
+      padding: "5% 30% 5%"
     }
   };
   return (
@@ -302,8 +505,34 @@ function UserInfo() {
         <h1 style={{ textAlign: "center", padding: "3rem 0" }}> Hello, {userData.name}</h1>
 
         <div>
-          <Appointments appointments={appointments}></Appointments>
+          {/* <Appointments appointments={appointments}></Appointments> */}
+          <Container style={{padding: "0 5% 0", fontSize: "1.5rem"}}>
+            <Row>
+              <Col>CenterID : </Col>
+              <Col>Center Name : </Col>
+            </Row>
+            <Row>
+              <Col>HealthID of incharge : </Col>
+              <Col>Health incharge: </Col>
+              
+            </Row>
+          </Container>
 
+          
+          <Container>
+                <Row style={styles.datagrid}>
+                <Col xs={12} md={6}> 
+                  <h3>Free Slots</h3>
+                  <FreeSlots style={styles.datagrid}/>
+                </Col>
+                <Col xs={12} md={6}> 
+                  <h3>Booked Appointments</h3>
+                  <AppointmentsTable style={styles.datagrid}/>
+                </Col>
+                
+                </Row>
+                
+            </Container>
 
           <Container>
                 <Row style={styles.datagrid}>
@@ -326,16 +555,25 @@ function UserInfo() {
                     
                 
             </Container>
+            <Container>
+                <Row style={styles.bloodbank}>
+                <Col xs={12} md={12} >
+                  <h3>Blood Bank</h3> 
+                  <BloodBank style={styles.datagrid}></BloodBank>
+                </Col>  
+                </Row>
+                    
+                    
+                    
+                    
+                    
+                    
+                
+            </Container>
           
         </div>
         <hr />
-        {/* <div className="text-center">
-          <ButtonGroup>
-            <Button variant="outline-warning" style={{ marginRight: "1rem" }}>Update Info</Button>
-            <Button onClick={onDonate} variant="outline-info" style={{ marginRight: "1rem" }}>Donate</Button>
-            <Button onClick={onReceive} variant="outline-success">Receive</Button>
-          </ButtonGroup>
-        </div> */}
+        
 
         <div className='user-danger'>
           <ButtonGroup>
