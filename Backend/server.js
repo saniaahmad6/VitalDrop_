@@ -107,6 +107,42 @@ table_alterations.forEach(query => {
 con.query(`SET FOREIGN_KEY_CHECKS = 1`, basicQueryCallback)
 con.query(`UNLOCK TABLES`, basicQueryCallback)
 
+const generateCenterLatLong = () => {
+  let element = [24.065015083595664, 78.06087703506316];
+  element[0] += (Math.random() * 2 - 1) * 10
+  element[1] += (Math.random() * 2 - 1) * 10
+  return element
+}
+
+
+con.query("SHOW COLUMNS FROM `DonationCenters` LIKE 'latitude'", (err, result) => {
+  if (err)
+    throw err
+  if (result.length == 0) {
+    con.query("ALTER TABLE DonationCenters ADD COLUMN latitude DOUBLE, ADD COLUMN longitude DOUBLE", (err2, result2) => {
+      if (err2) {
+        throw err2
+      }
+    })
+  }
+})
+
+con.query("SELECT id FROM DonationCenters", (err, result) => {
+  if (err)
+    throw err
+  result.map((val) => {
+    let coords = generateCenterLatLong()
+    con.query(`UPDATE DonationCenters SET latitude = ${coords[0]}, longitude = ${coords[1]} WHERE id = ${val.id}`, (err, result) => {
+      if (err)
+        throw err
+    })
+  })
+})
+
+con.query("SELECT * FROM DonationCenters", (err, result) => {
+  console.log(result)
+})
+
 //Api starts here
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -285,6 +321,39 @@ app.get('/search-state/:state/:district', (req, res) => {
     })
 })
 
+app.get('/center-info/:centerId', (req, res) => {
+  con.query(`
+  SELECT * from DonationCenters
+   INNER JOIN Pincodes ON Pincodes.Pincode = DonationCenters.pincode 
+   WHERE DonationCenters.id = '${req.params.centerId}'`,
+    (err, result) => {
+      if (err) {
+        res.send(null)
+      }
+      else {
+        res.send(result[0])
+      }
+    })
+})
+
+app.get('/nearby-centers/:latitude/:longitude/:limit?', (req, res) => {
+  const limit = req.params.limit ? req.params.limit : 10
+  con.query(
+    `SELECT * FROM DonationCenters
+    INNER JOIN Pincodes ON Pincodes.Pincode = DonationCenters.pincode
+    ORDER BY
+    POWER(DonationCenters.latitude - ${req.params.latitude}, 2) + 
+    POWER(DonationCenters.longitude - ${req.params.longitude}, 2)
+    ASC
+    LIMIT ${limit}`
+    , (err, result) => {
+      if(err)
+        throw err
+      console.log(result)
+      res.send(result)
+    })
+})
+
 app.get('/available-states', (req, res) => {
   con.query(`SELECT Distinct(StateName) FROM Pincodes`,
     (err, result) => {
@@ -334,12 +403,12 @@ app.get('/available-centers', (req, res) => {
 })
 
 app.get('/available-appointments/:centerId', (req, res) => {
+  //searches for available slots in a center
   con.query(`SELECT * FROM Appointments WHERE center_id = ${req.params.centerId}`, (err, data) => {
     if (err) return res.send({ error: true, success: false, message: err.message })
     res.send(data)
   })
 })
-
 
 app.post('/new-donation', [urlEncodedParser, sessionChecker], (req, res) => {
   //will not work if there is data missing
