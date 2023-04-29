@@ -1,0 +1,126 @@
+[33mcommit 7844529d227f0e66d7c53d2059bedb7e594c8411[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 4ff788a 299ca38
+Author: Sania Ahmad <sania.ahmad483@gmail.com>
+Date:   Sat Mar 11 20:50:05 2023 +0530
+
+    Merge branch 'master' of github.com:saniaahmad6/VitalDrop_
+
+[33mcommit 4ff788a6fab1716115e5368afd9beda7bbc11baa[m
+Author: Sania Ahmad <sania.ahmad483@gmail.com>
+Date:   Sat Mar 11 20:49:28 2023 +0530
+
+    user page styled
+
+[33mcommit 299ca3874de975b3c15265d5e82345ac19086507[m
+Author: Fayez-Siddiqui <116592701+Fayez-Siddiqui@users.noreply.github.com>
+Date:   Sat Mar 11 06:43:11 2023 -0800
+
+    initialise user
+
+[33mcommit 8493c49be74097d8b96e859be9d62baf5ed313d4[m
+Merge: 4b03890 f4309a0
+Author: Fayez Siddiqui <fayez.siddiqui31@gmail.com>
+Date:   Sat Mar 11 06:38:09 2023 -0800
+
+    resolving conflict
+
+[33mcommit 4b03890895db5e85903a0fa883056451eb78e928[m
+Author: Fayez Siddiqui <fayez.siddiqui31@gmail.com>
+Date:   Sat Mar 11 06:04:37 2023 -0800
+
+    backend
+
+[33mcommit 16dadc42d14485cb7310f9fad14b998a6e0a0ad4[m
+Author: Fayez Siddiqui <fayez.siddiqui31@gmail.com>
+Date:   Sat Mar 11 06:02:37 2023 -0800
+
+    backend
+
+[33mcommit 88cef329bc825f1c9982620ddbdfc6055304e86e[m
+Author: Fayez Siddiqui <fayez.siddiqui31@gmail.com>
+Date:   Sat Mar 11 05:59:52 2023 -0800
+
+    backend update
+
+[33mcommit f4309a0bbe846d105a556d5acab6d5e30cf51932[m
+Merge: 1f79c48 919d071
+Author: Sania Ahmad <sania.ahmad483@gmail.com>
+Date:   Sat Mar 11 18:39:26 2023 +0530
+
+    Merge branch 'master' of github.com:saniaahmad6/VitalDrop_
+
+[33mcommit 1f79c480e796986cd0305a0e6fbe98906883af36[m
+Author: Sania Ahmad <sania.ahmad483@gmail.com>
+Date:   Sat Mar 11 18:39:10 2023 +0530
+
+    new
+
+[33mcommit 919d07124ffee096ebbf255bd7b19736ff374f59[m
+Merge: 32dea8f 93f4442
+Author: Mohammed Ayan <112795104+AyanChaudhary@users.noreply.github.com>
+Date:   Sat Mar 11 17:23:43 2023 +0530
+
+    Merge pull request #1 from AyanChaudhary/master
+    
+    added address and phone no in users
+
+[33mcommit 93f44421c2ca457d2d92100c8fa1ce86ae2ac36e[m
+Author: Ayan Chaudhary <ayanchaudhary14@gmail.com>
+Date:   Sat Mar 11 17:18:50 2023 +0530
+
+    added address and phone no in users
+
+[33mcommit cc27f18709214e363fc5242ae092b5beac85e01c[m
+Merge: 5bf81d9 32dea8f
+Author: Sania Ahmad <sania.ahmad483@gmail.com>
+Date:   Fri Mar 10 16:57:39 2023 +0530
+
+    Merge branch 'master' of github.com:saniaahmad6/VitalDrop_
+
+[33mcommit 5bf81d91e594ce8b7348b7d64e1433a85c85ee42[m
+Author: Sania Ahmad <sania.ahmad483@gmail.com>
+Date:   Fri Mar 10 16:57:07 2023 +0530
+
+    second
+
+[33mcommit 32dea8f36a50fa1dd365a2263f68c1a75776fbcb[m
+Author: Fayez Siddiqui <fayez.siddiqui31@gmail.com>
+Date:   Fri Mar 10 00:58:59 2023 -0800
+
+    added models for donation , order and users
+
+[33mcommit e3eb554d43fef939489a1a45061b858ef37375cd[m
+Author: Fayez Siddiqui <fayez.siddiqui31@gmail.com>
+Date:   Wed Mar 8 23:32:07 2023 -0800
+
+    added bank model and refrenced on tables
+
+[33mcommit c3e4805d9abf175b633dbabe5fed83abb555f02f[m
+Author: mun-ahmd <muneeb0ahmed3@gmail.com>
+Date:   Wed Mar 8 13:55:30 2023 +0530
+
+    README fix
+
+[33mcommit e69de38cebd1afebe1031e928c038dddbbf0d158[m
+Author: mun-ahmd <muneeb0ahmed3@gmail.com>
+Date:   Wed Mar 8 13:51:33 2023 +0530
+
+    Readme
+
+[33mcommit ee56d196cd8c17c88b7a0eadc259b4a9be2085c1[m
+Author: mun-ahmd <muneeb0ahmed3@gmail.com>
+Date:   Wed Mar 8 13:46:02 2023 +0530
+
+    Added backend base
+
+[33mcommit 4ca47d387fb04c37f15a183025c6d8e0709409fb[m
+Author: Sania Ahmad <sania.ahmad483@gmail.com>
+Date:   Tue Mar 7 21:57:50 2023 +0530
+
+    first commit
+
+[33mcommit 7a1d7d38ed66001cd552dc9ad025e1078103a933[m
+Author: Sania Ahmad <sania.ahmad483@gmail.com>
+Date:   Tue Mar 7 13:13:17 2023 +0530
+
+    Initialize project using Create React App

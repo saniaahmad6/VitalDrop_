@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const mysqlInfo = {
   user: 'root',
   host: 'localhost',
-  password: '3002_zeyaf',
+  password: 'Md@9536796532',
   database: 'VitalDropDB'
 }
 
@@ -222,7 +222,7 @@ app.get('/user-info', sessionChecker, (req, res) => {
 })
 
 app.put('/user-update', sessionChecker, (req, res) => {
-  const sql = User.updateUserByEmail
+  const sql = user_model.updateUserByEmail
   const { password, phone, address, e_mail } = req.body
 
   con.query(sql, [password, phone, address, e_mail], (err, data) => {
@@ -367,7 +367,6 @@ app.post('/new-donation', [urlEncodedParser, sessionChecker], (req, res) => {
 
 })
 
-
 app.delete('/delete-donation', sessionChecker, (req, res) => {
   con.query(`DELETE FROM Donations WHERE user_id = ${session.userid} `, (err, data) => {
     if (err) return res.send({ error: true, success: false, message: err.message })
@@ -391,6 +390,17 @@ app.delete('/delete-admin', sessionChecker, (req, res) => {
   })
 })
 
+app.put('/admin-update',sessionChecker,(req,res)=>{
+  const sql = `UPDATE AdminUsers SET email_id = (?) , password = (?) , name =(?)
+  WHERE AdminUsers.id = ${session.userid}; `
+  const { e_mail,password,name} = req.body
+  con.query(sql, [e_mail,password,name],(err,data)=>{
+    if (err) return res.send({ error: true, success: false, message: err.message })
+      (res, err)
+
+    res.send({ success: true, message: 'AdminUser updated!' })
+  })
+})
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
