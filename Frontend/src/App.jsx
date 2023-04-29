@@ -13,6 +13,7 @@ import AdminUser from "./routes/AdminUser"
 import UserInfo from './components/User/UserInfo';
 import Donate from './components/Donate/Donate';
 import Receive from './components/Receive/Receive';
+import { MapPage } from './routes/Map';
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
           <Route path="/login/user/receive" element={<Receive />} />
         </Route>
         <Route path="/adminlogin/adminuser" element={<AdminUser />} />
-
+        <Route path="/map/:centerId" element={<MapPage></MapPage>}/>
       </Routes>
     </div>
   );
