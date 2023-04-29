@@ -30,38 +30,6 @@ import {
 import { SearchByMap } from "../components/Map/SearchByMap";
 
 const SearchResults = ({ results }) => {
-<<<<<<< HEAD
-  return (
-    <>
-      {results.length > 0 ? (
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Pincode</th>
-              <th>State</th>
-              <th>District</th>
-              <th>Address</th>
-            </tr>
-          </thead>
-          <tbody>
-            {results.map((result, idx) => (
-              <tr key={result.id}>
-                <td>{idx}</td>
-                <td>{result.Pincode}</td>
-                <td>{result.StateName}</td>
-                <td>{result.District}</td>
-                <td>{result.address}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      ) : (
-        <p>No results found.</p>
-      )}
-    </>
-  );
-=======
     return (
         <div className="map" id="map" >
             {results.length > 0 ? (
@@ -94,7 +62,6 @@ const SearchResults = ({ results }) => {
             )}
         </div>
     );
->>>>>>> 400175e11bc536dcdb7f668c2ec4c7c7cbd5a51c
 };
 
 const SearchByState = () => {
@@ -294,53 +261,6 @@ const SearchBy = () => {
     // call a function to update the search type in the parent component
   };
 
-<<<<<<< HEAD
-  const styles = {
-    state:{
-      backgroundColor : radioValue==="state"?  '#821D30' :  "white",
-      borderColor: radioValue==="state"?  '#821D30' :  "white",
-      color: radioValue!=="state"?  'black' :  "white"
-    },
-    pincode :{
-      backgroundColor : radioValue==="pincode"?  '#821D30' :  "white",
-      borderColor: radioValue!=="pincode"?  '#821D30' :  "white",
-      color: radioValue!=="pincode"?  'black' :  "white"
-    }
-    
-
-    
-  };
-
-  return (
-    <>
-      <ButtonGroup>
-        <ToggleButton style={styles.state}
-          type="radio"
-          variant="outline-primary"
-          name="radio"
-          value="state"
-          checked={radioValue === "state"}
-          onClick={() => handleChange("state")}
-        >
-          Search by state
-        </ToggleButton>
-        <ToggleButton style={styles.pincode}
-          type="radio"
-          variant="outline-primary"
-          name="radio"
-          value="pincode"
-          checked={radioValue === "pincode"}
-          onClick={() => handleChange("pincode")}
-        >
-          Search by pincode
-        </ToggleButton>
-      </ButtonGroup>
-      {radioValue === "state" ? (
-        <SearchByState></SearchByState>
-      ) : (
-        <SearchByPincode></SearchByPincode>
-      )}
-=======
     const chooseSearch = () => {
         switch (radioValue) {
             case 'state':
@@ -355,10 +275,29 @@ const SearchBy = () => {
         }
         return <div></div>
     }
-
+    const styles = {
+      state:{
+        backgroundColor : radioValue==="state"?  '#821D30' :  "white",
+        borderColor: radioValue!=="state"?  '#821D30' :  "white",
+        color: radioValue!=="state"?  'black' :  "white"
+      },
+      pincode :{
+        backgroundColor : radioValue==="pincode"?  '#821D30' :  "white",
+        borderColor: radioValue!=="pincode"?  '#821D30' :  "white",
+        color: radioValue!=="pincode"?  'black' :  "white"
+      },
+      map :{
+        backgroundColor : radioValue==="map"?  '#821D30' :  "white",
+        borderColor: radioValue!=="map"?  '#821D30' :  "white",
+        color: radioValue!=="map"?  'black' :  "white"
+      }
+      
+  
+      
+    };
     return (<>
         <ButtonGroup>
-            <ToggleButton
+            <ToggleButton style={styles.state}
                 type="radio"
                 variant="outline-primary"
                 name="radio"
@@ -368,7 +307,7 @@ const SearchBy = () => {
             >
                 Search by state
             </ToggleButton>
-            <ToggleButton
+            <ToggleButton style={styles.pincode}
                 type="radio"
                 variant="outline-primary"
                 name="radio"
@@ -378,7 +317,7 @@ const SearchBy = () => {
             >
                 Search by pincode
             </ToggleButton>
-            <ToggleButton
+            <ToggleButton style={styles.map}
                 type="radio"
                 variant="outline-primary"
                 name="radio"
@@ -391,7 +330,6 @@ const SearchBy = () => {
         </ButtonGroup>
         {chooseSearch()}
         {/* {radioValue == 'state' ? <SearchByState></SearchByState> : <SearchByPincode></SearchByPincode>} */}
->>>>>>> 400175e11bc536dcdb7f668c2ec4c7c7cbd5a51c
     </>
   );
 };
