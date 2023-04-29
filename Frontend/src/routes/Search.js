@@ -30,7 +30,6 @@ import {
 import { SearchByMap } from "../components/Map/SearchByMap";
 
 const SearchResults = ({ results }) => {
-<<<<<<< HEAD
   return (
     <>
       {results.length > 0 ? (
@@ -42,6 +41,7 @@ const SearchResults = ({ results }) => {
               <th>State</th>
               <th>District</th>
               <th>Address</th>
+              <th>Map</th>
             </tr>
           </thead>
           <tbody>
@@ -52,6 +52,7 @@ const SearchResults = ({ results }) => {
                 <td>{result.StateName}</td>
                 <td>{result.District}</td>
                 <td>{result.address}</td>
+                <td style={{color: 'blue'}}><a target='_blank' rel="noreferrer noopener" href={`/map/${result.id}`}>Click</a></td>
               </tr>
             ))}
           </tbody>
@@ -61,40 +62,6 @@ const SearchResults = ({ results }) => {
       )}
     </>
   );
-=======
-    return (
-        <div className="map" id="map" >
-            {results.length > 0 ? (
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Pincode</th>
-                            <th>State</th>
-                            <th>District</th>
-                            <th>Address</th>
-                            <th>Map</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {results.map((result, idx) => (
-                            <tr key={result.id}>
-                                <td>{idx}</td>
-                                <td>{result.Pincode}</td>
-                                <td>{result.StateName}</td>
-                                <td>{result.District}</td>
-                                <td>{result.address}</td>
-                                <td style={{color: 'blue'}}><a target='_blank' rel="noreferrer noopener" href={`/map/${result.id}`}>Click</a></td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
-            ) : (
-                <p>No results found.</p>
-            )}
-        </div>
-    );
->>>>>>> 400175e11bc536dcdb7f668c2ec4c7c7cbd5a51c
 };
 
 const SearchByState = () => {
@@ -294,7 +261,6 @@ const SearchBy = () => {
     // call a function to update the search type in the parent component
   };
 
-<<<<<<< HEAD
   const styles = {
     state:{
       backgroundColor : radioValue==="state"?  '#821D30' :  "white",
@@ -340,58 +306,6 @@ const SearchBy = () => {
       ) : (
         <SearchByPincode></SearchByPincode>
       )}
-=======
-    const chooseSearch = () => {
-        switch (radioValue) {
-            case 'state':
-                return <SearchByState></SearchByState>
-            case 'pincode':
-                return <SearchByPincode></SearchByPincode>
-            case 'map':
-                return <SearchByMap></SearchByMap>
-            default:
-                console.error(`unexpected radio value = ${radioValue}`)
-                break;
-        }
-        return <div></div>
-    }
-
-    return (<>
-        <ButtonGroup>
-            <ToggleButton
-                type="radio"
-                variant="outline-primary"
-                name="radio"
-                value="state"
-                checked={radioValue === 'state'}
-                onClick={() => handleChange('state')}
-            >
-                Search by state
-            </ToggleButton>
-            <ToggleButton
-                type="radio"
-                variant="outline-primary"
-                name="radio"
-                value="pincode"
-                checked={radioValue === 'pincode'}
-                onClick={() => handleChange('pincode')}
-            >
-                Search by pincode
-            </ToggleButton>
-            <ToggleButton
-                type="radio"
-                variant="outline-primary"
-                name="radio"
-                value="map"
-                checked={radioValue === 'map'}
-                onClick={() => handleChange('map')}
-            >
-                Search by map
-            </ToggleButton>
-        </ButtonGroup>
-        {chooseSearch()}
-        {/* {radioValue == 'state' ? <SearchByState></SearchByState> : <SearchByPincode></SearchByPincode>} */}
->>>>>>> 400175e11bc536dcdb7f668c2ec4c7c7cbd5a51c
     </>
   );
 };
@@ -410,12 +324,7 @@ function Search() {
       >
         <MDBRow>
           <MDBCol col="10" md="6">
-            <img
-              src={IMG}
-              class="img-fluid"
-              alt="Phone image"
-              style={{ width: "100%", padding: "2rem" }}
-            />
+            <SearchByMap></SearchByMap>
           </MDBCol>
 
           <MDBCol col="4" md="6" style={{ padding: "2rem" }}>
