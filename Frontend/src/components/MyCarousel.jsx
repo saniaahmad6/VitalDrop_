@@ -14,8 +14,8 @@ function MyCarousel() {
           alt="First slide"
         />
         <Carousel.Caption>
-          <h3>Donate, its safe!</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          <h3>Help, you save lives!</h3>
+          <p>Blood donation is a safe and simple process that takes about an hour to complete</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item interval={5000}>
@@ -28,8 +28,8 @@ function MyCarousel() {
         />
 
         <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <h3>Donate, its safe!</h3>
+          <p>Blood donation centers and mobile blood drives follow strict safety and hygiene protocols to ensure that donors and staff are protected from infections, including COVID-19.</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item interval={5000}>
@@ -41,9 +41,9 @@ function MyCarousel() {
         />
 
         <Carousel.Caption>
-          <h3>Third slide label</h3>
+          <h3>It helps you too!</h3>
           <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+          Regular blood donation can help reduce the risk of heart disease, stroke, and some types of cancer.
           </p>
         </Carousel.Caption>
       </Carousel.Item>
