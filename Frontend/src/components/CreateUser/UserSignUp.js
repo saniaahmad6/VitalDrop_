@@ -45,6 +45,7 @@ function UserSignUp() {
       navigate('/login')
     }
     else {
+      alert("could not sign up")
       console.log('could not sign up')
     }
   }

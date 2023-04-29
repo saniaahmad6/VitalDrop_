@@ -10,12 +10,17 @@
     
 }
 
-.user-container h1{
+.user-container h2{
     width: 100%;
     color: #5F093D ;
     
 }
 
+.user-container h1{
+    width: 100%;
+    color: #5F093D ;
+    
+}
 .update{
     position: relative;
     align-items: center;

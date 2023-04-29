@@ -13,7 +13,7 @@ const Appointments = ({ appointments }) => {
     <Container>
       <Row>
         <Col>
-          <h1>Appointments</h1>
+          <h2>Appointments</h2>
           <Table striped bordered hover>
             <thead>
               <tr>

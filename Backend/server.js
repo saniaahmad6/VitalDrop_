@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const mysqlInfo = {
   user: 'root',
   host: 'localhost',
-  password: 'password',
+  password: 'abcdef',
   database: 'VitalDropDB'
 }
 
@@ -163,7 +163,7 @@ app.post('/login', urlEncodedParser, (req, res) => {
         res.send({ login: false, err: "DB ERROR" })
       }
       else {
-        if (result.length != 1) {
+        if (result.length ==0) {
           res.send({ login: false, err: "EMAIL NOT REGISTERED" })
         }
         else {
@@ -293,7 +293,7 @@ app.get('/available-states', (req, res) => {
         res.send({ states: [] })
       }
       else {
-        console.log(result)
+        // console.log(result)
         res.send({ states: result })
       }
     })

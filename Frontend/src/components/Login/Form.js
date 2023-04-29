@@ -31,6 +31,7 @@ function Form() {
       navigate('/login/user')
     }
     else {
+      alert('could not login')
       console.log('could not login')
     }
   }

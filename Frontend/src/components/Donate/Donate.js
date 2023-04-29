@@ -53,6 +53,7 @@ export function Donate() {
 
       let data = (await res.json())
       if (data.register) {
+        alert('Your appointment is booked')
         console.log("REGISTERED")
         navigate('/login/user')
       }

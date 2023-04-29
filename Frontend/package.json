@@ -3,14 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@mui/material": "^5.12.2",
+    "@mui/x-data-grid": "^6.3.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "ag-grid-community": "^29.3.3",
+    "ag-grid-react": "^29.3.3",
     "bootstrap": "^5.2.3",
     "font-awesome": "^4.7.0",
     "mdb-react-ui-kit": "^5.1.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
+    "react-data-grid": "^7.0.0-beta.28",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.9.0",
@@ -42,5 +49,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy" : "http://localhost:5000"
+  "proxy": "http://localhost:5000"
 }
