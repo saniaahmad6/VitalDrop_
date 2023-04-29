@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const mysqlInfo = {
   user: 'root',
   host: 'localhost',
-  password: 'Md@9536796532',
+  password: 'password',
   database: 'VitalDropDB'
 }
 
@@ -127,6 +127,9 @@ con.query("SHOW COLUMNS FROM `DonationCenters` LIKE 'latitude'", (err, result) =
   }
 })
 
+con.query("ALTER TABLE DonationCenters MODIFY latitude DOUBLE NOT NULL", basicQueryCallback);
+con.query("ALTER TABLE DonationCenters MODIFY longitude DOUBLE NOT NULL", basicQueryCallback);
+
 con.query("SELECT id FROM DonationCenters", (err, result) => {
   if (err)
     throw err
@@ -157,6 +160,7 @@ const port = 5000
 dotenv.config()
 
 var session
+var adminSession
 
 app.get('/', (req, res) => {
   res.send('Hello World! - VitalDrop')
@@ -347,7 +351,7 @@ app.get('/nearby-centers/:latitude/:longitude/:limit?', (req, res) => {
     ASC
     LIMIT ${limit}`
     , (err, result) => {
-      if(err)
+      if (err)
         throw err
       console.log(result)
       res.send(result)
@@ -384,6 +388,7 @@ app.get('/available-districts/:state', (req, res) => {
 
 const bank_model = require('./model/bank_model');
 const Donation = require('./model/donations_model');
+const { runInNewContext } = require('vm');
 
 
 app.get('/search', sessionChecker, (req, res) => {
@@ -459,11 +464,11 @@ app.delete('/delete-admin', sessionChecker, (req, res) => {
   })
 })
 
-app.put('/admin-update',sessionChecker,(req,res)=>{
+app.put('/admin-update', sessionChecker, (req, res) => {
   const sql = `UPDATE AdminUsers SET email_id = (?) , password = (?) , name =(?)
   WHERE AdminUsers.id = ${session.userid}; `
-  const { e_mail,password,name} = req.body
-  con.query(sql, [e_mail,password,name],(err,data)=>{
+  const { e_mail, password, name } = req.body
+  con.query(sql, [e_mail, password, name], (err, data) => {
     if (err) return res.send({ error: true, success: false, message: err.message })
       (res, err)
 
@@ -471,7 +476,110 @@ app.put('/admin-update',sessionChecker,(req,res)=>{
   })
 })
 
+async function createDonationCenter({ pincode, state, address, latitude, longitude }, { email_id, name, password }) {
+  let prom = new Promise((resolver, rejector) => {
+    con.query(`SELECT * FROM AdminUsers WHERE email_id = '${email_id}'`, (error0, result0) => {
+      if (error0)
+        rejector(error0)
+      if (result0.length != 0)
+        rejector(result0)
+      con.query(`INSERT INTO DonationCenters(pincode, state, address, latitude, longitude) values('${pincode}', '${state}', '${address}', ${latitude}, ${longitude})`, (err, res) => {
+        if (err)
+          rejector(err)
+        con.query('SELECT LAST_INSERT_ID()', (error, result) => {
+          if (error)
+            rejector(error)
+          let centerId = result[0]
+          for (const key in centerId) {
+            centerId = centerId[key];
+            break
+          }
+          con.query(`INSERT INTO AdminUsers(email_id, name, assigned_center, password) values('${email_id}', '${name}', '${centerId}', '${password}')`, (err2, res2) => {
+            if (err2)
+              rejector(err2)
+            resolver()
+          })
+        })
+      })
+    })
+  });
+  return prom
+}
+
+app.post('/admin-signup', urlEncodedParser, (req, res) => {
+  donationCenterDetails = {
+    pincode: req.body.pincode,
+    state: req.body.state,
+    address: req.body.address,
+    latitude: req.body.latitude,
+    longitude: req.body.longitude
+  }
+  adminCreateDetails = {
+    email_id: req.body.email,
+    name: req.body.name,
+    password: req.body.password,
+  }
+  for (const key in adminCreateDetails) {
+    if (!adminCreateDetails[key]) {
+      console.error(`Value of ${key} was null`)
+      res.send({ signup: false })
+      return
+    }
+  }
+  for (const key in donationCenterDetails) {
+    if (!donationCenterDetails[key]) {
+      console.error(`Value of ${key} was null`)
+      res.send({ signup: false })
+      return
+    }
+  }
+  createDonationCenter(donationCenterDetails, adminCreateDetails).then(
+    () => {
+      console.log("Succesfully registered admin!")
+      res.send({ signup: true })
+    }
+  ).catch(
+    (err) => {
+      console.error(err)
+      res.send({ signup: false })
+    }
+  )
+})
+
+app.post('/admin-login', urlEncodedParser, (req, res) => {
+  if (req.body.email) {
+    con.query(`SELECT * from AdminUsers WHERE email_id = '${req.body.email}'`, (err, result) => {
+      if (err) {
+        console.log("error in login query", err)
+        res.send({ login: false, err: "DB ERROR" })
+      }
+      else {
+        if (result.length != 1) {
+          res.send({ login: false, err: "EMAIL NOT REGISTERED" })
+        }
+        else {
+          let stored = result[0]
+          if (req.body.password == stored.password) {
+            adminSession = req.session;
+            adminSession.id = stored.id;
+            adminSession.centerId = stored.center_id
+            res.send({ login: true });
+          }
+          else {
+            res.send({ login: false, err: "INCORRECT PASSWORD" });
+          }
+        }
+      }
+    })
+  }
+})
+
+app.get('/admin-logout', (req, res) => {
+  req.session.destroy();
+  adminSession = null
+  res.send()
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
-

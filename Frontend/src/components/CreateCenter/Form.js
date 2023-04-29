@@ -1,6 +1,7 @@
-import React , { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import IMG from "./loginperson.jpg"
 import "./Form.css"
+import { Form as FormClass } from 'react-bootstrap';
 import {
   MDBContainer,
   MDBCol,
@@ -8,62 +9,109 @@ import {
   MDBBtn,
   MDBInput,
   MDBCheckbox
+} from 'mdb-react-ui-kit';
+import { NavLink, useNavigate } from "react-router-dom"
+
+const onC = (setter) => {
+  return (event) => {
+    setter(event.target.value)
+  }
 }
-from 'mdb-react-ui-kit';
-import {NavLink} from "react-router-dom"
 
 function Form() {
   const [isHover, setIsHover] = useState(false);
 
-   const handleMouseEnter = () => {
-      setIsHover(true);
-   };
+  const handleMouseEnter = () => {
+    setIsHover(true);
+  };
 
-   const handleMouseLeave = () => {
-      setIsHover(false);
-   };
-   const boxStyle = {
+  const handleMouseLeave = () => {
+    setIsHover(false);
+  };
+
+  const boxStyle = {
     marginTop: '2rem',
     cursor: 'pointer',
-    backgroundColor: isHover ? '#5F093D': '#B21368',
-    border : isHover ? '#5F093D': '#B21368'
- };
+    backgroundColor: isHover ? '#5F093D' : '#B21368',
+    border: isHover ? '#5F093D' : '#B21368'
+  };
+
+  const [availableStates, setAvailableStates] = useState([])
+  useEffect(() => {
+    fetch(`/available-states`).then((res) => {
+      res.json().then((data) => {
+        setAvailableStates(data.states)
+      })
+    })
+  }, [])
+
+  const [pincode, setPincode] = useState("")
+  const [state, setState] = useState("")
+  const [address, setAddress] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [name, setName] = useState("")
+  const [latitude, setLatitude] = useState(undefined)
+  const [longitude, setLongitude] = useState(undefined)
+  const navigate = useNavigate()
+
+  const submitForm = async () => {
+    let bodyJson = {
+      name: name,
+      email: email,
+      password: password,
+      address: address,
+      state: state,
+      pincode: pincode,
+      latitude: latitude,
+      longitude: longitude
+    }
+    console.log(bodyJson)
+
+    let res = await fetch("/admin-signup", {
+      method: 'POST',
+      body: new URLSearchParams(bodyJson),
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    })
+    let data = (await res.json())
+    if (data.signup) {
+      navigate('/adminlogin')
+    }
+    else {
+      console.log('could not sign up')
+    }
+  }
+
   return (
-    <MDBContainer fluid className="p-3 my-5 custom" style={{padding: "3rem 3rem"}}>
-
+    <MDBContainer fluid className="p-3 my-5 custom" style={{ padding: "3rem 3rem" }}>
       <MDBRow>
-
-
-        
-        <MDBCol col='4' md='6' style={{padding: "2rem"}}>
+        <MDBCol col='4' md='6' style={{ padding: "2rem" }}>
           <h5>Healthcare Center Details: </h5>
-          <MDBInput wrapperClass='mb-4' label='CENTER REGISTRATION ID' id='formControlLg' type='text' size="lg"/>
-          <MDBInput wrapperClass='mb-4' label='State' id='formControlLg' type='text' size="lg"/>
-          
-          <MDBInput wrapperClass='mb-4' label='Pin code' id='formControlLg' type='text' size="lg"/>
-          <MDBInput wrapperClass='mb-4' label='Address' id='formControlLg' type='text' size="lg"/>
+          <MDBInput wrapperClass='mb-4' label='Pincode' id='formControlLg' type='text' size="lg" value={pincode} onChange={onC(setPincode)} />
+          <MDBInput wrapperClass='mb-4' label='Address' id='formControlLg' type='text' size="lg" value={address} onChange={onC(setAddress)} />
+          <MDBInput wrapperClass='mb-4' label='Latitude' id='formControlLg' type='number' step={0.0000001} size="lg" value={latitude} onChange={onC(setLatitude)} />
+          <MDBInput wrapperClass='mb-4' label='Longitude' id='formControlLg' type='number' step={0.0000001} size="lg" value={longitude} onChange={onC(setLongitude)} />
+          <FormClass.Select onChange={onC(setState)}>
+            <option selected value={null}>Choose State</option>
+            {availableStates.map((val, index) => {
+              return <option key={index} value={val.StateName} > {val.StateName} </option>
+            })}
+          </FormClass.Select>
+          <label>State</label>
+          <p></p>
           <h5>Health In-charge Details:</h5>
-          <MDBInput wrapperClass='mb-4' label='HEALTH ID' id='formControlLg' type='text' size="lg"/>
-          <MDBInput wrapperClass='mb-4' label='Name' id='formControlLg' type='text' size="lg"/>
-          <MDBInput wrapperClass='mb-4' label='Email Address' id='formControlLg' type='email' size="lg"/>
-          <MDBInput wrapperClass='mb-4' label='Set Password' id='formControlLg' type='password' size="lg"/>
-          
-
-          
-
-          <NavLink to="/adminlogin" style={{color: "black"}}>
-          <MDBBtn className="mb-4 w-100" size="lg" style={boxStyle}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}>
-            Register as a donation site
-          </MDBBtn>
-          </NavLink>
-
-          
-
+          <MDBInput wrapperClass='mb-4' label='Name' id='formControlLg' type='text' size="lg" value={name} onChange={onC(setName)} />
+          <MDBInput wrapperClass='mb-4' label='Email Address' id='formControlLg' type='email' size="lg" value={email} onChange={onC(setEmail)} />
+          <MDBInput wrapperClass='mb-4' label='Set Password' id='formControlLg' type='password' size="lg" value={password} onChange={onC(setPassword)} />
+            <MDBBtn className="mb-4 w-100" size="lg" style={boxStyle}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              onClick={async () => await submitForm()}>
+              Register as a donation site
+            </MDBBtn>
         </MDBCol>
         <MDBCol col='10' md='6'>
-          <img src={IMG} class="img-fluid" alt="Phone image" style={{width: "100%" , height: "100%"}}/>
+          <img src={IMG} className="img-fluid" alt="Phone image" style={{ width: "100%", height: "100%" }} />
         </MDBCol>
       </MDBRow>
 
