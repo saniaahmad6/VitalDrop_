@@ -261,56 +261,51 @@ const SearchBy = () => {
     // call a function to update the search type in the parent component
   };
 
-    const chooseSearch = () => {
-        switch (radioValue) {
-            case 'state':
-                return <SearchByState></SearchByState>
-            case 'pincode':
-                return <SearchByPincode></SearchByPincode>
-            case 'map':
-                return <SearchByMap></SearchByMap>
-            default:
-                console.error(`unexpected radio value = ${radioValue}`)
-                break;
-        }
-        return <div></div>
+  const styles = {
+    state:{
+      backgroundColor : radioValue==="state"?  '#821D30' :  "white",
+      borderColor: radioValue==="state"?  '#821D30' :  "white",
+      color: radioValue!=="state"?  'black' :  "white"
+    },
+    pincode :{
+      backgroundColor : radioValue==="pincode"?  '#821D30' :  "white",
+      borderColor: radioValue!=="pincode"?  '#821D30' :  "white",
+      color: radioValue!=="pincode"?  'black' :  "white"
     }
+    
 
-    return (<>
-        <ButtonGroup>
-            <ToggleButton
-                type="radio"
-                variant="outline-primary"
-                name="radio"
-                value="state"
-                checked={radioValue === 'state'}
-                onClick={() => handleChange('state')}
-            >
-                Search by state
-            </ToggleButton>
-            <ToggleButton
-                type="radio"
-                variant="outline-primary"
-                name="radio"
-                value="pincode"
-                checked={radioValue === 'pincode'}
-                onClick={() => handleChange('pincode')}
-            >
-                Search by pincode
-            </ToggleButton>
-            <ToggleButton
-                type="radio"
-                variant="outline-primary"
-                name="radio"
-                value="map"
-                checked={radioValue === 'map'}
-                onClick={() => handleChange('map')}
-            >
-                Search by map
-            </ToggleButton>
-        </ButtonGroup>
-        {chooseSearch()}
-        {/* {radioValue == 'state' ? <SearchByState></SearchByState> : <SearchByPincode></SearchByPincode>} */}
+    
+  };
+
+  return (
+    <>
+      <ButtonGroup>
+        <ToggleButton style={styles.state}
+          type="radio"
+          variant="outline-primary"
+          name="radio"
+          value="state"
+          checked={radioValue === "state"}
+          onClick={() => handleChange("state")}
+        >
+          Search by state
+        </ToggleButton>
+        <ToggleButton style={styles.pincode}
+          type="radio"
+          variant="outline-primary"
+          name="radio"
+          value="pincode"
+          checked={radioValue === "pincode"}
+          onClick={() => handleChange("pincode")}
+        >
+          Search by pincode
+        </ToggleButton>
+      </ButtonGroup>
+      {radioValue === "state" ? (
+        <SearchByState></SearchByState>
+      ) : (
+        <SearchByPincode></SearchByPincode>
+      )}
     </>
   );
 };

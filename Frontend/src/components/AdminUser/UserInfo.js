@@ -475,6 +475,7 @@ function AppointmentAdder() {
   }
   return (
     <Container style={{ alignItems: "center", fontSize: "1.1rem", margin: "5% 0 0", paddingLeft: "5%" }}>
+      <h4>Add Appointment: </h4>
       <ButtonGroup >
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} placeholder="dd-mm-yyyy" style={{ marginRight: "1rem" }} />
         <input type="number" value={count} onChange={(e) => setCount(e.target.value)} min={1} max={101} placeholder="number of slots" style={{ marginRight: "1rem" }} />
