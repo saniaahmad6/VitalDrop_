@@ -481,8 +481,8 @@ function UserInfo() {
       <div className='user-container' >
         <div>
           {/* <Appointments appointments={appointments}></Appointments> */}
-          <Container style={{ padding: "0 5% 0", fontSize: "1.5rem" }}>
-            <Row>
+          <Container style={{ padding: " 5% 0", fontSize: "1.5rem" }}>
+            <Row style={{ padding: " 0 6%  0"}}>
               <Col>CenterID : {userData.assigned_center}</Col>
               <Col>Center Name : {userData.address}</Col>
             </Row>
