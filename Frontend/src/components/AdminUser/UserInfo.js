@@ -16,24 +16,39 @@ import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
 
-function Donations({appointments}) {
+function Donations({ appointments }) {
   const [clickedRow, setClickedRow] = useState();
   const onButtonClick = (e, row) => {
     e.stopPropagation();
     setClickedRow(row);
   };
-
   const [selectedAppointment, setSelectedAppointment] = useState(null)
-
   const [donations, setDonations] = useState([])
+
   useEffect(() => {
     if (selectedAppointment) {
       fetch(`/appointment-donations/${selectedAppointment}`).then((value) => {
-        value.json().then(setDonations)
+        value.json().then((val) => {
+          setDonations(val)
+          console.log('Donations: ', val)
+        })
         console.log(donations)
       })
     }
   }, [selectedAppointment])
+
+  const onClickSetDonationStatus = (e, row, status) => {
+    e.stopPropagation()
+    let donationId = row.id
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: donationId, status: status })
+    };
+    console.log('sending: ', requestOptions.body)
+    fetch('/set-donation-status', requestOptions)
+      .then(response => console.log('updated donation status'))
+  }
 
 
   const columns = [
@@ -41,25 +56,31 @@ function Donations({appointments}) {
     {
       field: "Name",
       headerName: "Name",
-      width: 200,
+      width: 150,
+      editable: false
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 100,
       editable: false
     },
     {
       field: "bloodType",
       headerName: "Blood Type",
-      width: 70,
+      width: 100,
       editable: false
     },
     {
       field: "appointmentId",
       headerName: "AppointmentId",
       type: "number",
-      width: 110,
+      width: 100,
       editable: false
     },
     {
       field: "acceptButton",
-      headerName: "Actions",
+      headerName: "Accept",
       description: "Actions column.",
       sortable: false,
       width: 160,
@@ -67,7 +88,7 @@ function Donations({appointments}) {
         return (
           <Button
             style={{ backgroundColor: "#1A5653" }}
-            onClick={(e) => onButtonClick(e, params.row)}
+            onClick={(e) => onClickSetDonationStatus(e, params.row, "Approved")}
             variant="contained"
           >
             Accept
@@ -77,14 +98,14 @@ function Donations({appointments}) {
     },
     {
       field: "deleteButton",
-      headerName: "Actions",
+      headerName: "Delete",
       description: "Actions column.",
       sortable: false,
       width: 160,
       renderCell: (params) => {
         return (
           <Button
-            onClick={(e) => onButtonClick(e, params.row)}
+            onClick={(e) => onClickSetDonationStatus(e, params.row, "Denied")}
             variant="contained"
             style={{ backgroundColor: "#821D30" }}
           >
@@ -96,15 +117,16 @@ function Donations({appointments}) {
   ];
 
   const rows = selectedAppointment ? donations.map((val, idx) => {
-    return { id: val.id, Name: val.name, bloodType: val.blood_type, appointmentId: selectedAppointment }
+    return { id: val.id, Name: val.name, bloodType: val.blood_type, appointmentId: selectedAppointment, status: val.status }
   }) : []
+  rows.sort((a, b) => a.status.localeCompare(b.status));
 
   return (
     <div>
       <FormClass.Select onChange={(e) => setSelectedAppointment(e.target.value)}>
         <option selected value={null}>Choose Appointment</option>
         {appointments.map((val, index) => {
-          return <option key={index} value={val.slot} > {(new Date(val.slot)).toDateString()} </option>
+          return <option key={index} value={val.id} > {(new Date(val.slot)).toDateString()} </option>
         })}
       </FormClass.Select>
       <Box sx={{ height: 400, width: "100%" }}>
@@ -310,7 +332,7 @@ const Appointments = ({ appointments }) => {
   );
 };
 
-function FreeSlots({appointments}) {
+function FreeSlots({ appointments }) {
   const [clickedRow, setClickedRow] = useState();
   const onButtonClick = (e, row) => {
     e.stopPropagation();
@@ -548,8 +570,11 @@ function UserInfo() {
   useEffect(() => {
     if (userData.assigned_center) {
       fetch(`/center-appointments/${userData.assigned_center}`).then((value) => {
-        value.json().then(setAppointments)
-        console.log(appointments)
+        value.json().then(
+          (val) => {
+            setAppointments(val)
+            console.log(val)
+          })
       })
     }
   }, [userData])

@@ -304,7 +304,7 @@ app.delete('/user-delete', sessionChecker, (req, res) => {
   const sql = user_model.DeleteUserById
   con.query((sql, [session.userid]), (err, data) => {
     if (err) return res.send({ error: true, success: false, message: err.message })
-  })  
+  })
 })
 
 app.get('/user-appointments', sessionChecker, (req, res) => {
@@ -573,7 +573,7 @@ app.get('/admin-logout', (req, res) => {
 });
 
 const adminChecker = (req, res, next) => {
-  if (req.session &&  adminSession.userid) {
+  if (req.session && adminSession.userid) {
     console.log(`Found Admin Session`);
     next();
   } else {
@@ -610,7 +610,7 @@ app.delete('/delete-admin', adminChecker, (req, res) => {
 app.post('/add-appointment', [adminChecker, urlEncodedParser], (req, res) => {
   if (req.body.date && req.body.count) {
     con.query(`INSERT INTO Appointments(center_id, slot, count) values(${adminSession.centerId}, '${req.body.date}', ${req.body.count})`, (err, result) => {
-      if(err)
+      if (err)
         throw err
       else
         console.log("SUCCESFULLY ADDED APPOINTMENT")
@@ -646,8 +646,8 @@ app.put('/admin-update', (req, res) => {
 })
 
 // for showing all donations yet to be confirmed or rejected on AdminUser profile page.
-app.get('/admin-donations', sessionChecker, (req , res) => {
-  const sql=`SELECT Donations.user_id, Users.name, Donations.blood_type  
+app.get('/admin-donations', sessionChecker, (req, res) => {
+  const sql = `SELECT Donations.user_id, Users.name, Donations.blood_type  
   FROM Donations
   INNER JOIN Appointments ON Donations.appointment_id = Appointments.id
   INNER JOIN Users ON Donations.user_id = Users.id
@@ -685,10 +685,30 @@ app.get('/center-appointments/:centerId', adminChecker, (req, res) => {
 app.get('/appointment-donations/:appointmentId', adminChecker, (req, res) => {
   con.query(`SELECT Donations.*, Users.name FROM Donations INNER JOIN Users ON Users.id = Donations.user_id WHERE appointment_id = ${req.params.appointmentId}`, (err, result) => {
     if (err) {
+      console.error(err)
       res.send([])
+      return
     }
-    res.send(result)
+    else {
+      console.log(result)
+      res.send(result)
+    }
   })
+})
+
+app.put('/set-donation-status', [adminChecker, jsonParser], (req, res) => {
+  if (req.body && req.body.status && req.body.id) {
+    con.query(`UPDATE Donations SET status = '${req.body.status}' WHERE id = ${req.body.id}`, (error, result) => {
+      if(error){
+        console.log(error)
+        throw error
+      }
+      else{
+        console.log('UPDATED DONATION STATUS')
+        res.send()
+      }
+    })
+  }
 })
 
 app.listen(port, () => {
