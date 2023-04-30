@@ -98,9 +98,9 @@ export function Receive() {
   return (
 
     <div className="donate-page">
-    <MDBContainer fluid className="p-3 my-5 custom" style={{ padding: "3rem 3rem" }}>
+    <MDBContainer fluid className="p-3 my-5 custom" >
 
-      <MDBRow>
+      <MDBRow style={{ padding: "3% 12%" }}>
       <MDBCol col='10' md='6'>
           <img src={IMG} class="img-fluid" alt="Side image" style={{ width: "100%", padding: "2rem" }} />
         </MDBCol>

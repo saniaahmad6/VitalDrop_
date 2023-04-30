@@ -504,7 +504,7 @@ function AppointmentAdder() {
     }
   }
   return (
-    <Container style={{ alignItems: "center", fontSize: "1.1rem", margin: "5% 0 0", paddingLeft: "5%" }}>
+    <Container style={{ alignItems: "center", fontSize: "1.1rem", margin: " 0 0", paddingLeft: "5%" }}>
       <h4>Add Appointment: </h4>
       <ButtonGroup >
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} placeholder="dd-mm-yyyy" style={{ marginRight: "1rem" }} />
@@ -587,6 +587,10 @@ function UserInfo() {
     }
   }, [userData])
 
+  function onUpdate(event){
+    navigator("/adminlogin/adminuser/update")
+  }
+
   return (
     <>
       <div className='user-container' >
@@ -594,12 +598,12 @@ function UserInfo() {
 
         <div>
           {/* <Appointments appointments={appointments}></Appointments> */}
-          <Container style={{ padding: "0 5% 0", fontSize: "1.5rem" }}>
-            <Row>
+          <Container style={{ padding: "5%  0", fontSize: "1.5rem" }}>
+            <Row style={{ padding: " 0 6%  0" }}>
               <Col>CenterID : {userData.assigned_center}</Col>
               <Col>Center Name : {userData.address}</Col>
             </Row>
-            <Row>
+            <Row style={{ padding: " 0 6%  0"}}>
               <Col>HealthID of incharge : {userData.id}</Col>
               <Col>Health incharge: {userData.name}</Col>
 
@@ -652,7 +656,7 @@ function UserInfo() {
 
         <div className='user-danger'>
           <ButtonGroup>
-            <Button style={{ marginRight: "1rem", backgroundColor: "#821D30" }} variant="contained">Edit Details</Button>{' '}
+            <Button style={{ marginRight: "1rem", backgroundColor: "#821D30" }} onClick={onUpdate} variant="contained">Edit Details</Button>{' '}
             <Button style={{ marginRight: "1rem", backgroundColor: "gray" }} variant="contained">Log Out</Button>{' '}
           </ButtonGroup>
         </div>

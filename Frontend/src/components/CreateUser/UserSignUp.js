@@ -67,7 +67,7 @@ function UserSignUp() {
   return (
     <MDBContainer fluid className="p-3 my-5 custom" style={{ padding: "3rem 3rem" }}>
 
-      <MDBRow>
+      <MDBRow style={{ padding: "3% 10%" }}>
 
         <MDBCol col='10' md='6'>
           <img src={IMG} class="img-fluid" alt="Phone image" style={{ width: "100%", padding: "2rem" }} />
@@ -75,8 +75,8 @@ function UserSignUp() {
 
         <MDBCol col='4' md='6' style={{ padding: "2rem" }}>
 
-          <MDBInput wrapperClass='mb-4' label='Name' id='formControlLg' type='text' size="lg" value={username} onChange={(e) => setUsername(e.target.value)} />
-          <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <MDBInput wrapperClass='mb-4' label='Name' id='formControlLg' type='text'  value={username} onChange={(e) => setUsername(e.target.value)} />
+          <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email'  value={email} onChange={(e) => setEmail(e.target.value)} />
 
 
           <MDBCol col='4' md='12'>
@@ -89,13 +89,13 @@ function UserSignUp() {
 
 
 
-          <MDBInput wrapperClass='mb-4' label='Phone Number' id='formControlLg' type='tel' size="lg" value={phoneNo} onChange={(e) => setPhoneNo(e.target.value)} />
-          <MDBInput wrapperClass='mb-4' label='Address' id='formControlLg' type='Address' size="lg" value={address} onChange={(e) => setAddress(e.target.value)} />
-          <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <MDBInput wrapperClass='mb-4' label='Phone Number' id='formControlLg' type='tel'  value={phoneNo} onChange={(e) => setPhoneNo(e.target.value)} />
+          <MDBInput wrapperClass='mb-4' label='Address' id='formControlLg' type='Address'  value={address} onChange={(e) => setAddress(e.target.value)} />
+          <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password'  value={password} onChange={(e) => setPassword(e.target.value)} />
 
 
 
-          <MDBBtn onClick={signupHandler} className="mb-4 w-100" size="lg" style={boxStyle}
+          <MDBBtn onClick={signupHandler} className="mb-4 w-100"  style={boxStyle}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}>Register</MDBBtn>
 

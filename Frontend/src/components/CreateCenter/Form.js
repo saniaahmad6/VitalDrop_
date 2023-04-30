@@ -83,14 +83,14 @@ function Form() {
   }
 
   return (
-    <MDBContainer fluid className="p-3 my-5 custom" style={{ padding: "3rem 3rem" }}>
-      <MDBRow>
+    <MDBContainer fluid className="p-3 my-5 custom" >
+      <MDBRow style={{ padding: "3% 10%" }}>
         <MDBCol col='4' md='6' style={{ padding: "2rem" }}>
           <h5>Healthcare Center Details: </h5>
-          <MDBInput wrapperClass='mb-4' label='Pincode' id='formControlLg' type='text' size="lg" value={pincode} onChange={onC(setPincode)} />
-          <MDBInput wrapperClass='mb-4' label='Address' id='formControlLg' type='text' size="lg" value={address} onChange={onC(setAddress)} />
-          <MDBInput wrapperClass='mb-4' label='Latitude' id='formControlLg' type='number' step={0.0000001} size="lg" value={latitude} onChange={onC(setLatitude)} />
-          <MDBInput wrapperClass='mb-4' label='Longitude' id='formControlLg' type='number' step={0.0000001} size="lg" value={longitude} onChange={onC(setLongitude)} />
+          <MDBInput wrapperClass='mb-4' label='Pincode' id='formControlLg' type='text'  value={pincode} onChange={onC(setPincode)} />
+          <MDBInput wrapperClass='mb-4' label='Address' id='formControlLg' type='text'  value={address} onChange={onC(setAddress)} />
+          <MDBInput wrapperClass='mb-4' label='Latitude' id='formControlLg' type='number' step={0.0000001}  value={latitude} onChange={onC(setLatitude)} />
+          <MDBInput wrapperClass='mb-4' label='Longitude' id='formControlLg' type='number' step={0.0000001}  value={longitude} onChange={onC(setLongitude)} />
           <FormClass.Select onChange={onC(setState)}>
             <option selected value={null}>Choose State</option>
             {availableStates.map((val, index) => {
@@ -100,10 +100,10 @@ function Form() {
           <label>State</label>
           <p></p>
           <h5>Health In-charge Details:</h5>
-          <MDBInput wrapperClass='mb-4' label='Name' id='formControlLg' type='text' size="lg" value={name} onChange={onC(setName)} />
-          <MDBInput wrapperClass='mb-4' label='Email Address' id='formControlLg' type='email' size="lg" value={email} onChange={onC(setEmail)} />
-          <MDBInput wrapperClass='mb-4' label='Set Password' id='formControlLg' type='password' size="lg" value={password} onChange={onC(setPassword)} />
-            <MDBBtn className="mb-4 w-100" size="lg" style={boxStyle}
+          <MDBInput wrapperClass='mb-4' label='Name' id='formControlLg' type='text'  value={name} onChange={onC(setName)} />
+          <MDBInput wrapperClass='mb-4' label='Email Address' id='formControlLg' type='email'  value={email} onChange={onC(setEmail)} />
+          <MDBInput wrapperClass='mb-4' label='Set Password' id='formControlLg' type='password'  value={password} onChange={onC(setPassword)} />
+            <MDBBtn className="mb-4 w-100"  style={boxStyle}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               onClick={async () => await submitForm()}>

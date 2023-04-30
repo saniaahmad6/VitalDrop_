@@ -77,6 +77,9 @@ function UserInfo() {
   function onReceive(event) {
     navigator("/login/user/receive")
   }
+  function onUpdate(event){
+    navigator("/login/user/update")
+  }
 
   useEffect(() => {
     fetch("/user-info").then((response) => {
@@ -105,7 +108,7 @@ function UserInfo() {
         <hr />
         <div className="text-center">
           <ButtonGroup>
-            <Button variant="outline-warning" style={{ marginRight: "1rem" }}>Update Info</Button>
+            <Button onClick={onUpdate} variant="outline-warning" style={{ marginRight: "1rem" }}>Update Info</Button>
             <Button onClick={onDonate} variant="outline-info" style={{ marginRight: "1rem" }}>Donate</Button>
             <Button onClick={onReceive} variant="outline-success">Receive</Button>
           </ButtonGroup>
