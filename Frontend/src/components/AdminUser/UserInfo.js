@@ -143,7 +143,7 @@ function Donations({ appointments }) {
           rowsPerPageOptions={[5]}
         />
       </Box>
-      clickedRow: {clickedRow ? `${clickedRow.id}` : null}
+      
     </div>
   );
 }
@@ -236,7 +236,7 @@ function Requests() {
           rowsPerPageOptions={[5]}
         />
       </Box>
-      clickedRow: {clickedRow ? `${clickedRow.id}` : null}
+      
     </div>
   );
 }
@@ -302,7 +302,7 @@ function AppointmentsTable() {
           rowsPerPageOptions={[5]}
         />
       </Box>
-      clickedRow: {clickedRow ? `${clickedRow.id}` : null}
+      
     </div>
   );
 }
@@ -477,7 +477,7 @@ function BloodBank() {
           rowsPerPageOptions={[5]}
         />
       </Box>
-      clickedRow: {clickedRow ? `${clickedRow.id}` : null}
+      
     </div>
   );
 };
@@ -610,9 +610,17 @@ function UserInfo() {
 
           <Container>
             <Row style={styles.datagrid}>
-                <h3>Free Slots</h3>
-                <FreeSlots appointments={appointments} style={styles.datagrid} />
+              <Col xs={12} md={6} >
+              <h3>Free Slots</h3>
+              <FreeSlots appointments={appointments} style={styles.datagrid} />
 
+              </Col>
+
+              <Col xs={12} md={6}>
+
+              <h3>Blood Bank</h3>
+                <BloodBank style={styles.datagrid}></BloodBank>
+              </Col>
             </Row>
 
           </Container>
@@ -631,14 +639,7 @@ function UserInfo() {
               </Col>
             </Row>
           </Container>
-          <Container>
-            <Row style={styles.bloodbank}>
-              <Col xs={12} md={12} >
-                <h3>Blood Bank</h3>
-                <BloodBank style={styles.datagrid}></BloodBank>
-              </Col>
-            </Row>
-          </Container>
+          
         </div>
         <hr />
         {/* <div className="text-center">

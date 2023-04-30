@@ -81,6 +81,19 @@ export function Receive() {
   const formStyle ={
     padding: '3rem '
   };
+  const styles = {
+    searchbutton:{
+      backgroundColor :  '#821D30' ,
+      borderColor : '#821D30',
+      color: "white",
+      marginTop : '5%',
+      marginBottom : '2%'
+    },
+    label :{
+      marginTop : '2%'
+    }
+  };
+
   
   return (
 
@@ -108,9 +121,23 @@ export function Receive() {
             <MDBRadio name='inlineRadio' id='inlineRadio8' value='option8' label='O-' inline onChange={() => { setBloodGroup('O-') }} />
           </MDBCol>
           
+          <Form.Group controlId="formPincode">
+          <Form.Label style={styles.label}>Enter 6 digit pincode</Form.Label>
+          <Form.Control
+            type="text"
+            pattern="[0-9]{6}"
+            maxLength={6}
+            placeholder="Enter pincode"
+            required
+          />
+          <Form.Control.Feedback type="invalid">
+            Please enter a valid 6 digit pincode.
+          </Form.Control.Feedback>
+        </Form.Group>
+          
 
           <MDBCol col='4' md='12' >
-            <h6 className="fw labels">Center: </h6>
+            <Form.Label style={styles.label}>Choose Center: </Form.Label>
             <Form.Select onChange={(event) => {
               setSelectedCenterId(event.target.value)
             }}>
@@ -123,21 +150,10 @@ export function Receive() {
 
 
 
-          <MDBCol col='4' md='12' >
-            <h6 className="ffw labels">Appointment: </h6>
-            <Form.Select onChange={(event) => {
-              setSelectedAppointmentId(event.target.value)
-            }}>
-
-              <option selected value={null}>Choose an appointment</option>
-              {availableAppointments.map((val, index) => {
-                return <option key={index} value={val.id} > {new Date(val.slot).toString()} </option>
-              })}
-            </Form.Select>
-          </MDBCol>
+          
 
           <MDBCol col='4' md='12' >
-            <h6 className="ffw labels">Amount (units) : </h6>
+            <Form.Label style={styles.label}>Amount: </Form.Label>
             <Form.Control type="text" placeholder="Units" />
               
             
