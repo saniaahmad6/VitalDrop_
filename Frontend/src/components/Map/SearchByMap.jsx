@@ -6,7 +6,9 @@ import './SearchByMap.css'
 
 import L from 'leaflet';
 import "leaflet-routing-machine";
-import icon from 'leaflet/dist/images/marker-icon.png';
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css"
+import "leaflet-routing-machine/dist/leaflet.routing.icons.png"
+import icon from 'leaflet/dist/images/marker-icon.png'
 import donationIcon from '../../images/blood.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import { useEffect } from 'react'
@@ -150,7 +152,8 @@ const RoutingMapDetails = ({ userCoords, centerDetails, routing }) => {
                         return marker;
                     }
                 })
-                cntrl.addTo(map);
+                
+                cntrl.hide().addTo(map);
                 setRoutingControl(cntrl)
             }
         }
