@@ -43,11 +43,14 @@ function Donations({ appointments }) {
     const requestOptions = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: donationId, status: status })
+      body: JSON.stringify({ id: donationId, status: status, appointmentId: selectedAppointment })
     };
     console.log('sending: ', requestOptions.body)
     fetch('/set-donation-status', requestOptions)
-      .then(response => console.log('updated donation status'))
+      .then(response => {
+        console.log('updated donation status')
+        window.location.reload()
+      })
   }
 
 
@@ -90,6 +93,7 @@ function Donations({ appointments }) {
             style={{ backgroundColor: "#1A5653" }}
             onClick={(e) => onClickSetDonationStatus(e, params.row, "Approved")}
             variant="contained"
+            disabled={(params.row.status == "Approved" || params.row.status == "Denied")}
           >
             Accept
           </Button>
@@ -103,11 +107,13 @@ function Donations({ appointments }) {
       sortable: false,
       width: 160,
       renderCell: (params) => {
+
         return (
           <Button
             onClick={(e) => onClickSetDonationStatus(e, params.row, "Denied")}
             variant="contained"
             style={{ backgroundColor: "#821D30" }}
+            disabled={(params.row.status == "Approved" || params.row.status == "Denied")}
           >
             Delete
           </Button>
@@ -490,7 +496,9 @@ function AppointmentAdder() {
         method: 'POST',
         body: new URLSearchParams(bodyJson),
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-      }).then(res => { }).catch(err => console.error(err))
+      }).then(res => {
+        window.location.reload()
+      }).catch(err => console.error(err))
       setDate('')
       setCount(0)
     }
@@ -602,14 +610,8 @@ function UserInfo() {
 
           <Container>
             <Row style={styles.datagrid}>
-              <Col xs={12} md={6}>
                 <h3>Free Slots</h3>
                 <FreeSlots appointments={appointments} style={styles.datagrid} />
-              </Col>
-              <Col xs={12} md={6}>
-                <h3>Booked Appointments</h3>
-                <AppointmentsTable style={styles.datagrid} />
-              </Col>
 
             </Row>
 

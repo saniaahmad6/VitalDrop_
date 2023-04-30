@@ -35,7 +35,13 @@ export function Donate() {
     if (selectedCenterId) {
       fetch(`/available-appointments/${selectedCenterId}`).then((response) => {
         response.json().then((data) => {
-          setAvailableAppointments(data)
+          let availableData = []
+          data.forEach(element => {
+            if(element.count > 0){
+              availableData.push(element)
+            }
+          });
+          setAvailableAppointments(availableData)
         })
       })
     }
