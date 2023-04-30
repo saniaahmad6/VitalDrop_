@@ -75,7 +75,7 @@ function Form() {
     })
     let data = (await res.json())
     if (data.signup) {
-      navigate('/adminlogin')
+      // navigate('/adminlogin')
     }
     else {
       console.log('could not sign up')
@@ -89,8 +89,8 @@ function Form() {
           <h5>Healthcare Center Details: </h5>
           <MDBInput wrapperClass='mb-4' label='Pincode' id='formControlLg' type='text'  value={pincode} onChange={onC(setPincode)} />
           <MDBInput wrapperClass='mb-4' label='Address' id='formControlLg' type='text'  value={address} onChange={onC(setAddress)} />
-          <MDBInput wrapperClass='mb-4' label='Latitude' id='formControlLg' type='number' step={0.0000001}  value={latitude} onChange={onC(setLatitude)} />
-          <MDBInput wrapperClass='mb-4' label='Longitude' id='formControlLg' type='number' step={0.0000001}  value={longitude} onChange={onC(setLongitude)} />
+          <MDBInput wrapperClass='mb-4' label='Latitude' id='formControlLg' type='number' step={0.000000001}  value={latitude} onChange={onC(setLatitude)} />
+          <MDBInput wrapperClass='mb-4' label='Longitude' id='formControlLg' type='number' step={0.000000001}  value={longitude} onChange={onC(setLongitude)} />
           <FormClass.Select onChange={onC(setState)}>
             <option selected value={null}>Choose State</option>
             {availableStates.map((val, index) => {

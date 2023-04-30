@@ -160,7 +160,7 @@ function Donations({ appointments }) {
           rowsPerPageOptions={[5]}
         />
       </Box>
-      
+
     </div>
   );
 }
@@ -269,7 +269,7 @@ function Requests() {
           rowsPerPageOptions={[5]}
         />
       </Box>
-      
+
     </div>
   );
 }
@@ -318,7 +318,7 @@ function FreeSlots({ appointments }) {
           rowsPerPageOptions={[5]}
         />
       </Box>
-      
+
     </div>
   );
 };
@@ -371,7 +371,7 @@ function BloodBank() {
           rowsPerPageOptions={[5]}
         />
       </Box>
-      
+
     </div>
   );
 };
@@ -472,7 +472,7 @@ function UserInfo() {
     }
   }, [userData])
 
-  function onUpdate(event){
+  function onUpdate(event) {
     navigator("/adminlogin/adminuser/update")
   }
 
@@ -482,11 +482,11 @@ function UserInfo() {
         <div>
           {/* <Appointments appointments={appointments}></Appointments> */}
           <Container style={{ padding: " 5% 0", fontSize: "1.5rem" }}>
-            <Row style={{ padding: " 0 6%  0"}}>
+            <Row style={{ padding: " 0 6%  0" }}>
               <Col>CenterID : {userData.assigned_center}</Col>
               <Col>Center Name : {userData.address}</Col>
             </Row>
-            <Row style={{ padding: " 0 6%  0"}}>
+            <Row style={{ padding: " 0 6%  0" }}>
               <Col>HealthID of incharge : {userData.id}</Col>
               <Col>Health incharge: {userData.name}</Col>
 
@@ -498,14 +498,14 @@ function UserInfo() {
           <Container>
             <Row style={styles.datagrid}>
               <Col xs={12} md={6} >
-              <h3>Free Slots</h3>
-              <FreeSlots appointments={appointments} style={styles.datagrid} />
+                <h3>Free Slots</h3>
+                <FreeSlots appointments={appointments} style={styles.datagrid} />
 
               </Col>
 
               <Col xs={12} md={6}>
 
-              <h3>Blood Bank</h3>
+                <h3>Blood Bank</h3>
                 <BloodBank style={styles.datagrid}></BloodBank>
               </Col>
             </Row>
@@ -526,13 +526,17 @@ function UserInfo() {
               </Col>
             </Row>
           </Container>
-          
+
         </div>
         <hr />
         <div className='user-danger'>
           <ButtonGroup>
             <Button style={{ marginRight: "1rem", backgroundColor: "#821D30" }} onClick={onUpdate} variant="contained">Edit Details</Button>{' '}
-            <Button style={{ marginRight: "1rem", backgroundColor: "gray" }} variant="contained">Log Out</Button>{' '}
+            <Button style={{ marginRight: "1rem", backgroundColor: "gray" }} variant="contained" onClick={() => {
+              fetch('admin-logout').then((response) => {
+                navigator("/adminlogin")
+              })
+            }}>Log Out</Button>{' '}
           </ButtonGroup>
         </div>
       </div>

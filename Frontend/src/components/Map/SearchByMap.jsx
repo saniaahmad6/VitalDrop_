@@ -153,7 +153,7 @@ const RoutingMapDetails = ({ userCoords, centerDetails, routing }) => {
                     }
                 })
                 
-                cntrl.hide().addTo(map);
+                cntrl.addTo(map);
                 setRoutingControl(cntrl)
             }
         }

@@ -130,18 +130,6 @@ con.query("SHOW COLUMNS FROM `DonationCenters` LIKE 'latitude'", (err, result) =
 con.query("ALTER TABLE DonationCenters MODIFY latitude DOUBLE NOT NULL", basicQueryCallback);
 con.query("ALTER TABLE DonationCenters MODIFY longitude DOUBLE NOT NULL", basicQueryCallback);
 
-con.query("SHOW COLUMNS FROM `DonationCenters` LIKE 'latitude'", (err, result) => {
-  if (err)
-    throw err
-  if (result.length == 0) {
-    con.query("ALTER TABLE DonationCenters ADD COLUMN latitude DOUBLE, ADD COLUMN longitude DOUBLE", (err2, result2) => {
-      if (err2) {
-        throw err2
-      }
-    })
-  }
-})
-
 con.query("SHOW COLUMNS FROM Appointments LIKE 'count'", (err0, result0) => {
   if (err0)
     throw err0
@@ -157,17 +145,17 @@ con.query("SHOW COLUMNS FROM Appointments LIKE 'count'", (err0, result0) => {
   }
 })
 
-con.query("SELECT id FROM DonationCenters", (err, result) => {
-  if (err)
-    throw err
-  result.map((val) => {
-    let coords = generateCenterLatLong()
-    con.query(`UPDATE DonationCenters SET latitude = ${coords[0]}, longitude = ${coords[1]} WHERE id = ${val.id}`, (err, result) => {
-      if (err)
-        throw err
-    })
-  })
-})
+// con.query("SELECT id FROM DonationCenters", (err, result) => {
+//   if (err)
+//     throw err
+//   result.map((val) => {
+//     let coords = generateCenterLatLong()
+//     con.query(`UPDATE DonationCenters SET latitude = ${coords[0]}, longitude = ${coords[1]} WHERE id = ${val.id}`, (err, result) => {
+//       if (err)
+//         throw err
+//     })
+//   })
+// })
 
 con.query("SELECT * FROM DonationCenters", (err, result) => {
   console.log(result)
