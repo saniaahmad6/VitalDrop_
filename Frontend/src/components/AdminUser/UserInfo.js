@@ -376,7 +376,7 @@ function FreeSlots({ appointments }) {
           rowsPerPageOptions={[5]}
         />
       </Box>
-      clickedRow: {clickedRow ? `${clickedRow.id}` : null}
+      
     </div>
   );
 };
