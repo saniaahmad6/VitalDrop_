@@ -91,7 +91,24 @@ function Donations({ appointments }) {
         return (
           <Button
             style={{ backgroundColor: "#1A5653" }}
-            onClick={(e) => onClickSetDonationStatus(e, params.row, "Approved")}
+            onClick={(e) => {
+              let units = prompt("Enter number of units: ")
+              if (units) {
+                const requestOptions = {
+                  method: 'PUT',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ bloodType: params.row.bloodType, units: units })
+                };
+
+                fetch('/add-units', requestOptions).then((response) => {
+                  console.log("added the units!")
+                })
+              }
+              else {
+                return
+              }
+              // onClickSetDonationStatus(e, params.row, "Approved")
+            }}
             variant="contained"
             disabled={(params.row.status == "Approved" || params.row.status == "Denied")}
           >
@@ -157,6 +174,17 @@ function Requests() {
     setClickedRow(row);
   };
 
+  const [requests, setRequests] = useState([])
+  useEffect(
+    () => {
+      fetch('/all-requests').then(result => {
+        result.json((data) => {
+          setRequests(data)
+          console.log(data)
+        })
+      })
+    }, []
+  )
 
   const columns = [
     { field: "id", headerName: "User ID", width: 60 },
@@ -173,8 +201,8 @@ function Requests() {
       editable: false
     },
     {
-      field: "amount",
-      headerName: "Amount",
+      field: "units",
+      headerName: "Units",
       type: "number",
       width: 110,
       editable: false
@@ -189,7 +217,18 @@ function Requests() {
         return (
           <Button
             style={{ backgroundColor: "#1A5653" }}
-            onClick={(e) => onButtonClick(e, params.row)}
+            onClick={(e) => {
+              const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ bloodType: params.row.bloodType, units: params.row.units })
+              };
+              console.log('CLO')
+              fetch('/subtract-units', requestOptions).then((response) => {
+                console.log("subtracted the units!")
+                window.location.reload()
+              }).catch(err => console.error(err))
+            }}
             variant="contained"
           >
             Accept
@@ -216,15 +255,9 @@ function Requests() {
       }
     }
   ];
-  const rows = [
-    { id: 1, Name: "Rahul Manchanda", bloodType: "A+", amount: 5 },
-    { id: 2, Name: "Kiran Dev", bloodType: "A-", amount: 2 },
-    { id: 3, Name: "Priya Yadav", bloodType: "B+", amount: 3 },
-    { id: 4, Name: "Sania Sachdeva", bloodType: "B+", amount: 6 },
-    { id: 5, Name: "Priya Dev", bloodType: "O-", amount: 3 },
-    { id: 6, Name: "Sonal Mehrotra", bloodType: "B+", amount: 2 },
-    { id: 7, Name: "Raghav Chaddha", bloodType: "B+", amount: 1 }
-  ];
+  const rows = requests ? requests.map((val) => {
+    return { id: val.id, Name: val.name, bloodType: val.blood_type, units: val.units_available }
+  }) : []
 
   return (
     <div>
@@ -240,103 +273,6 @@ function Requests() {
     </div>
   );
 }
-
-
-function AppointmentsTable() {
-  const [clickedRow, setClickedRow] = useState();
-  const onButtonClick = (e, row) => {
-    e.stopPropagation();
-    setClickedRow(row);
-  };
-
-
-  const columns = [
-
-
-    {
-      field: "appointmentId",
-      headerName: "AppointmentId",
-      type: "number",
-      width: 150,
-      editable: false
-    },
-    {
-      field: "userid",
-      headerName: "User ID",
-      type: "number",
-      width: 150,
-      editable: false
-    }
-    , {
-      field: "name",
-      headerName: "Donor Name",
-      width: 200,
-      editable: false
-    },
-    {
-      field: "date",
-      headerName: "Date",
-      width: 150,
-      editable: false
-    }
-
-
-  ];
-  const rows = [
-    { id: 1, Name: "Rahul Manchanda", bloodType: "A+", appointmentId: 35 },
-    { id: 2, Name: "Kiran Dev", bloodType: "A-", appointmentId: 42 },
-    { id: 3, Name: "Priya Yadav", bloodType: "B+", appointmentId: 41 },
-    { id: 4, Name: "Sania Sachdeva", bloodType: "B+", appointmentId: 21 },
-    { id: 5, Name: "Priya Dev", bloodType: "O-", appointmentId: 34 },
-    { id: 6, Name: "Sonal Mehrotra", bloodType: "B+", appointmentId: 20 },
-    { id: 7, Name: "Raghav Chaddha", bloodType: "B+", appointmentId: 11 }
-  ];
-
-  return (
-    <div>
-      <Box sx={{ height: 400, width: "100%" }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={4}
-          rowsPerPageOptions={[5]}
-        />
-      </Box>
-      clickedRow: {clickedRow ? `${clickedRow.id}` : null}
-    </div>
-  );
-}
-const Appointments = ({ appointments }) => {
-  return (
-    <Container>
-      <Row>
-        <Col>
-          <h1>Appointments</h1>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {appointments.map((appointment, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{appointment.date}</td>
-                  <td>{appointment.location}</td>
-                  <td>{appointment.status}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </Col>
-      </Row>
-    </Container>
-  );
-};
 
 function FreeSlots({ appointments }) {
   const [clickedRow, setClickedRow] = useState();
@@ -387,52 +323,6 @@ function FreeSlots({ appointments }) {
   );
 };
 
-// const Appointments = ({ appointments }) => {
-//   return (
-//     <Container>
-//       <Row>
-//         <Col>
-//           <h1>Appointments</h1>
-//           <Table striped bordered hover>
-//             <thead>
-//               <tr>
-//                 <th>#</th>
-//                 <th>Date</th>
-//                 <th>Time</th>
-//                 <th>Status</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {appointments.map((appointment, index) => (
-//                 <tr key={index}>
-//                   <td>{index + 1}</td>
-//                   <td>{appointment.date}</td>
-//                   <td>{appointment.location}</td>
-//                   <td>{appointment.status}</td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </Table>
-//         </Col>
-//       </Row>
-//     </Container>
-//   );
-// };
-
-const appointmentsData = [
-  // {
-  //   id: 1,
-  //   date: (new Date("2023-04-01")).toDateString(),
-  //   location: "Community Center",
-  //   status: "Confirmed",
-  // },
-  // {
-  //   id: 2,
-  //   date: (new Date("2023-04-02")).toDateString(),
-  //   location: "Hospital",
-  //   status: "Pending",
-  // },
-];
 function BloodBank() {
   const [clickedRow, setClickedRow] = useState();
   const onButtonClick = (e, row) => {
@@ -440,6 +330,15 @@ function BloodBank() {
     setClickedRow(row);
   };
 
+  const [bloodDetails, setBloodDetails] = useState([])
+  useEffect(() => {
+    fetch('/blood-details').then((res) => {
+      res.json().then(data => {
+        console.log(data)
+        setBloodDetails(data)
+      })
+    })
+  }, [])
 
   const columns = [
 
@@ -457,15 +356,10 @@ function BloodBank() {
       editable: false
     }
   ];
-  const rows = [
-    { id: 1, Name: "Rahul Manchanda", bloodType: "A+", appointmentId: 35 },
-    { id: 2, Name: "Kiran Dev", bloodType: "A-", appointmentId: 42 },
-    { id: 3, Name: "Priya Yadav", bloodType: "B+", appointmentId: 41 },
-    { id: 4, Name: "Sania Sachdeva", bloodType: "B+", appointmentId: 21 },
-    { id: 5, Name: "Priya Dev", bloodType: "O-", appointmentId: 34 },
-    { id: 6, Name: "Sonal Mehrotra", bloodType: "B+", appointmentId: 20 },
-    { id: 7, Name: "Raghav Chaddha", bloodType: "B+", appointmentId: 11 }
-  ];
+
+  const rows = bloodDetails ? bloodDetails.map((val, idx) => {
+    return { id: idx, bloodType: val.blood_type, units: val.units_available }
+  }) : []
 
   return (
     <div>
@@ -545,15 +439,6 @@ function UserInfo() {
         setUserData(data)
       })
     })
-    // fetch("/admin-appointments").then(async (response) => {
-    //   let resData = await response.json()
-    //   let newAppointments = []
-    //   resData.forEach(appointment => {
-    //     newAppointments.push({ date: (new Date(appointment.slot)).toDateString(), location: appointment.address, status: "Confirmed" })
-    //   });
-    //   setAppointments(newAppointments)
-    //   console.log(newAppointments)
-    // })
   }, [])
 
   useEffect(() => {
@@ -590,10 +475,7 @@ function UserInfo() {
   return (
     <>
       <div className='user-container' >
-        {/* <h1 style={{ textAlign: "center", padding: "3rem 0" }}> Hello, {userData.name}</h1> */}
-
         <div>
-          {/* <Appointments appointments={appointments}></Appointments> */}
           <Container style={{ padding: "0 5% 0", fontSize: "1.5rem" }}>
             <Row>
               <Col>CenterID : {userData.assigned_center}</Col>
@@ -610,8 +492,8 @@ function UserInfo() {
 
           <Container>
             <Row style={styles.datagrid}>
-                <h3>Free Slots</h3>
-                <FreeSlots appointments={appointments} style={styles.datagrid} />
+              <h3>Free Slots</h3>
+              <FreeSlots appointments={appointments} style={styles.datagrid} />
 
             </Row>
 
@@ -641,14 +523,6 @@ function UserInfo() {
           </Container>
         </div>
         <hr />
-        {/* <div className="text-center">
-          <ButtonGroup>
-            <Button variant="outline-warning" style={{ marginRight: "1rem" }}>Update Info</Button>
-            <Button onClick={onDonate} variant="outline-info" style={{ marginRight: "1rem" }}>Donate</Button>
-            <Button onClick={onReceive} variant="outline-success">Receive</Button>
-          </ButtonGroup>
-        </div> */}
-
         <div className='user-danger'>
           <ButtonGroup>
             <Button style={{ marginRight: "1rem", backgroundColor: "#821D30" }} variant="contained">Edit Details</Button>{' '}

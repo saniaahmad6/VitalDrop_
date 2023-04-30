@@ -84,7 +84,7 @@ export function Receive() {
   
   return (
 
-    <div className="donate-page">
+    <div className="recieve-page">
     <MDBContainer fluid className="p-3 my-5 custom" style={{ padding: "3rem 3rem" }}>
 
       <MDBRow>
@@ -96,6 +96,7 @@ export function Receive() {
        
 
           <MDBCol col='4' md='12' >
+          <h1 className='heading'> Recieve. </h1>
           <h1 className='heading'> Fill up details to proceed</h1>
             <h6 className="fw labels">Blood Group: </h6>
             <MDBRadio name='inlineRadio' id='inlineRadio1' value='option1' label='A+' inline onChange={() => { setBloodGroup('A+') }} />

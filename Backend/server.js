@@ -573,7 +573,7 @@ app.get('/admin-logout', (req, res) => {
 });
 
 const adminChecker = (req, res, next) => {
-  if (req.session && adminSession.userid) {
+  if (req.session && adminSession && adminSession.userid && adminSession.centerId) {
     console.log(`Found Admin Session`);
     next();
   } else {
@@ -708,15 +708,15 @@ app.put('/set-donation-status', [adminChecker, jsonParser], (req, res) => {
         console.log('UPDATED DONATION STATUS')
         if (req.body.status == 'Approved') {
           con.query(`UPDATE Appointments SET count = count - 1 WHERE id = ${req.body.appointmentId}`, (err0, res0) => {
-            if(err0){
+            if (err0) {
               console.error(err0)
               throw err0
             }
             res.send()
           })
         } else if (req.body.status == 'Denied') {
-            //do nothing
-            res.send()
+          //do nothing
+          res.send()
         }
         else {
           console.error('UNKNOWN STATUS: ', req.body.status)
@@ -725,6 +725,88 @@ app.put('/set-donation-status', [adminChecker, jsonParser], (req, res) => {
       }
     })
   }
+})
+
+app.get('/blood-details', adminChecker, (req, res) => {
+  con.query(`SELECT * FROM BloodBank WHERE center_id = ${adminSession.centerId}`, (err, result) => {
+    if (err) {
+      console.error(err)
+      res.send()
+      return
+    }
+    console.log(result)
+    res.send(result)
+  })
+})
+
+app.put('/add-units', [adminChecker, jsonParser], (req, res) => {
+  if (req.body && req.body.bloodType && req.body.units) {
+    con.query(`SELECT * FROM BloodBank WHERE blood_type = '${req.body.bloodType}' AND center_id = ${adminSession.centerId}`, (err0, res0) => {
+      if (err0) {
+        console.error(err0)
+        res.send()
+      }
+      if (res0.length == 0) {
+        con.query(`INSERT INTO BloodBank values('${req.body.bloodType}', ${adminSession.centerId}, ${req.body.units})`, (err1, res1) => {
+          if (err1) {
+            console.error(err1)
+          }
+          res.send()
+        })
+      }
+      else {
+        con.query(`UPDATE 
+        BloodBank SET units_available = units_available + ${req.body.units} 
+         WHERE blood_type = '${req.body.bloodType}' AND center_id = ${adminSession.centerId}`), (err1, res1) => {
+            if (err1) {
+              console.error(err1)
+            }
+            res.send()
+          }
+      }
+    })
+  }
+})
+
+app.put('/subtract-units', [adminChecker, jsonParser], (req, res) => {
+  if (req.body && req.body.bloodType && req.body.units) {
+    con.query(`SELECT * FROM BloodBank WHERE blood_type = '${req.body.bloodType}' AND center_id = ${adminSession.centerId}`, (err0, res0) => {
+      if (err0) {
+        console.error(err0)
+        res.send()
+      }
+      if (res0.length == 0) {
+        con.query(`INSERT INTO BloodBank values('${req.body.bloodType}', ${adminSession.centerId}, ${0})`, (err1, res1) => {
+          if (err1) {
+            console.error(err1)
+          }
+          res.send()
+        })
+      }
+      else {
+        con.query(`UPDATE 
+        BloodBank SET units_available = units_available - ${req.body.units} 
+         WHERE blood_type = '${req.body.bloodType}' AND center_id = ${adminSession.centerId}`), (err1, res1) => {
+            if (err1) {
+              console.error(err1)
+            }
+            res.send()
+          }
+      }
+    })
+  }
+})
+
+app.get('/all-requests', adminChecker, (req, res) => {
+  con.query(`SELECT Requests.* , Users.name FROM Requests INNER JOIN Users ON Users.id = Requests.user_id WHERE Requests.center_id = ${adminSession.centerId}`,
+  (err, result) => {
+    if(err){
+      console.error(err)
+      res.send()
+      return
+    }
+    res.send(result)
+  })
 })
 
 app.listen(port, () => {
