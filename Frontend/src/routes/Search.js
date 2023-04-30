@@ -156,7 +156,6 @@ const SearchByState = () => {
               let state = StateSet.StateName;
               return (
                 <option value={state} style={{ ...optionStyles, ...(focusedOption === {state} ? focusedOptionStyles : {}) }} onMouseEnter={handleOptionMouseEnter} onMouseLeave={handleOptionMouseLeave} key={idx}>
-                {console.log(focusedOption)}
                   {state}
                 </option>
               );

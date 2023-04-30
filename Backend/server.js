@@ -614,6 +614,7 @@ app.post('/add-appointment', [adminChecker, urlEncodedParser], (req, res) => {
         throw err
       else
         console.log("SUCCESFULLY ADDED APPOINTMENT")
+      res.send()
     })
   }
 })
@@ -697,15 +698,30 @@ app.get('/appointment-donations/:appointmentId', adminChecker, (req, res) => {
 })
 
 app.put('/set-donation-status', [adminChecker, jsonParser], (req, res) => {
-  if (req.body && req.body.status && req.body.id) {
+  if (req.body && req.body.status && req.body.id && req.body.appointmentId) {
     con.query(`UPDATE Donations SET status = '${req.body.status}' WHERE id = ${req.body.id}`, (error, result) => {
-      if(error){
+      if (error) {
         console.log(error)
         throw error
       }
-      else{
+      else {
         console.log('UPDATED DONATION STATUS')
-        res.send()
+        if (req.body.status == 'Approved') {
+          con.query(`UPDATE Appointments SET count = count - 1 WHERE id = ${req.body.appointmentId}`, (err0, res0) => {
+            if(err0){
+              console.error(err0)
+              throw err0
+            }
+            res.send()
+          })
+        } else if (req.body.status == 'Denied') {
+            //do nothing
+            res.send()
+        }
+        else {
+          console.error('UNKNOWN STATUS: ', req.body.status)
+          res.send()
+        }
       }
     })
   }
