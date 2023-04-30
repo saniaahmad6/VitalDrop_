@@ -9,8 +9,8 @@ function MyCarousel() {
       <Carousel.Item interval={5000}>
         <img
           className="d-block w-100 myimg"
-          src={require('../images/carousel1.jpg')}
-         
+          src={require('../images/carousel2.jpg')}
+          
           alt="First slide"
         />
         <Carousel.Caption>
@@ -22,8 +22,8 @@ function MyCarousel() {
         
         <img
           className="d-block w-100 myimg"
-          src={require('../images/carousel1.jpg')}
-          
+          src={require('../images/carousel3.jpg')}
+
           alt="Second slide"
         />
 
@@ -35,7 +35,7 @@ function MyCarousel() {
       <Carousel.Item interval={5000}>
         <img
           className="d-block w-100 myimg"
-          src={require('../images/carousel1.jpg')}
+          src={require('../images/carousel2.jpg')}
           
           alt="Third slide"
         />

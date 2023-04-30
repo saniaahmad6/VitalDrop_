@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const mysqlInfo = {
   user: 'root',
   host: 'localhost',
-  password: 'password',
+  password: 'abcdef',
   database: 'VitalDropDB'
 }
 

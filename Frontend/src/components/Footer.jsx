@@ -23,12 +23,12 @@ const Footer = () => {
               </a>
             </li>
             <li>
-              <a href="https://www.google.com/">
+              <a href="https://github.com/saniaahmad6/VitalDrop_">
                 <i className="fa fa-github"></i>
               </a>
             </li>
             <li>
-              <a href="https://www.google.com/">
+              <a href="https://www.linkedin.com/in/computerengg-jmi/?trk=public_profile_browsemap&originalSubdomain=in">
                 <i className="fa fa-linkedin-square"></i>
               </a>
             </li>
