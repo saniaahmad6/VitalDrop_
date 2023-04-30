@@ -178,7 +178,7 @@ function Requests() {
   useEffect(
     () => {
       fetch('/all-requests').then(result => {
-        result.json((data) => {
+        result.json().then((data) => {
           setRequests(data)
           console.log(data)
         })
@@ -256,7 +256,7 @@ function Requests() {
     }
   ];
   const rows = requests ? requests.map((val) => {
-    return { id: val.id, Name: val.name, bloodType: val.blood_type, units: val.units_available }
+    return { id: val.id, Name: val.name, bloodType: val.blood_type, units: val.amount }
   }) : []
 
   return (

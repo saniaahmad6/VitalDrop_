@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const mysqlInfo = {
   user: 'root',
   host: 'localhost',
-  password: 'abcdef',
+  password: 'password',
   database: 'VitalDropDB'
 }
 
@@ -468,6 +468,34 @@ app.post('/new-donation', [urlEncodedParser, sessionChecker], (req, res) => {
 
 })
 
+app.post('/new-request', [urlEncodedParser, sessionChecker], (req, res) => {
+  con.query(`INSERT INTO Requests(user_id, center_id, blood_type, amount, status) 
+  values(${session.userid}, ${req.body.center_id}, '${req.body.blood_type}', ${req.body.amount}, '${req.body.status}')`,
+    (err, result) => {
+      if (err) {
+        console.error(err)
+        res.send()
+        return
+      }
+      res.send({ success: true })
+    })
+})
+
+app.get('/request-centers/:pincode/:bloodGroup/:amount', sessionChecker, (req, res) => {
+  con.query(`SELECT DonationCenters.* FROM DonationCenters INNER JOIN BloodBank ON
+   ((DonationCenters.id = BloodBank.center_id) AND ('${req.params.bloodGroup}' = BloodBank.blood_type)) 
+   WHERE BloodBank.units_available > ${req.params.amount}`,
+    (err, result) => {
+      if (err) {
+        console.error(err)
+        res.send([])
+        return
+      }
+      console.log(result)
+      res.send(result)
+    })
+})
+
 async function createDonationCenter({ pincode, state, address, latitude, longitude }, { email_id, name, password }) {
   let prom = new Promise((resolver, rejector) => {
     con.query(`SELECT * FROM AdminUsers WHERE email_id = '${email_id}'`, (error0, result0) => {
@@ -799,14 +827,15 @@ app.put('/subtract-units', [adminChecker, jsonParser], (req, res) => {
 
 app.get('/all-requests', adminChecker, (req, res) => {
   con.query(`SELECT Requests.* , Users.name FROM Requests INNER JOIN Users ON Users.id = Requests.user_id WHERE Requests.center_id = ${adminSession.centerId}`,
-  (err, result) => {
-    if(err){
-      console.error(err)
-      res.send()
-      return
-    }
-    res.send(result)
-  })
+    (err, result) => {
+      if (err) {
+        console.error(err)
+        res.send()
+        return
+      }
+      console.log(result)
+      res.send(result)
+    })
 })
 
 app.listen(port, () => {
