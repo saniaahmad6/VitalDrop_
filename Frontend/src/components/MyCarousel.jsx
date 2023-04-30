@@ -9,7 +9,7 @@ function MyCarousel() {
       <Carousel.Item interval={5000}>
         <img
           className="d-block w-100 myimg"
-          src={require('../images/carousel3.jpg')}
+          src={require('../images/donor.jpg')}
           
           alt="First slide"
         />
@@ -22,7 +22,7 @@ function MyCarousel() {
         
         <img
           className="d-block w-100 myimg"
-          src={require('../images/carousel2.jpg')}
+          src={require('../images/vials.jpg')}
 
           alt="Second slide"
         />
@@ -35,7 +35,7 @@ function MyCarousel() {
       <Carousel.Item interval={5000}>
         <img
           className="d-block w-100 myimg"
-          src={require('../images/carousel3.jpg')}
+          src={require('../images/donationArt.png')}
           
           alt="Third slide"
         />
