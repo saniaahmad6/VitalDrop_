@@ -120,10 +120,11 @@ export function Donate() {
             <Form.Select onChange={(event) => {
               setSelectedCenterId(event.target.value)
             }}>
-              <option selected value={null} >Choose a center</option>
+              <option selected value={-1}>Choose a center</option>
               {availableCenters.map((val, index) => {
                 return <option key={index} value={val.id} > {val.address} </option>
               })}</Form.Select>
+              {selectedCenterId != -1 ? <a target='_blank' rel="noreferrer noopener" href={`/map/${selectedCenterId}`} style={{color:'blue'}}>Click</a> : <div style={{color:'gray'}}>Click</div>}
           </MDBCol>
           
 
