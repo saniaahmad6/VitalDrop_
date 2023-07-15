@@ -1,6 +1,16 @@
 # VitalDrop
 This project aims to connect people to blood donation centers and effectively manage donations, request and blood banks.
 
+## Table Of Contents
+https://github.com/saniaahmad6/VitalDrop_/tree/master
+  1. [Technologies used](https://github.com/saniaahmad6/VitalDrop_/tree/master#technologies-used)
+  2. [Screenshots](https://github.com/saniaahmad6/VitalDrop_/tree/master#screenshots)
+  3. [Tech Stack](https://github.com/saniaahmad6/VitalDrop_/tree/master#tech-stack)
+  4. [Installation](https://github.com/saniaahmad6/VitalDrop_/tree/master#installation)
+
+  
+
+<a name="technologies-used"/>
 
 ## Technologies used
 
@@ -9,6 +19,8 @@ This project aims to connect people to blood donation centers and effectively ma
 - [MySQL](https://www.mysql.com/) 
 - [Express.js](https://expressjs.com/)
 
+
+<a name="screenshots"/>
 ## Screenshots
 
 ### Search by map
@@ -29,6 +41,8 @@ This project aims to connect people to blood donation centers and effectively ma
 <p align="center" width="100%">
     <img width="70%" src="https://github.com/saniaahmad6/VitalDrop_/assets/94756953/6b8df8eb-163d-4576-a695-a091bffaa5e9">
 </p>
+
+<a name="tech-stack"/>
 
 ## Tech Stack
 
@@ -60,6 +74,7 @@ This project aims to connect people to blood donation centers and effectively ma
 - mysql
 - nodemon
 
+<a name="installation"/>
 
 ## Installation 
 
