@@ -1,13 +1,13 @@
 # VitalDrop
-This project aims to connect people to blood donation centers and effectively manage donations, requests and blood banks.
+This project aims to connect people to blood donation centers and effectively manage donations, request and blood banks.
 
 
 ## Technologies used
 
-- React.js
-- Node.js
-- MySQL 
-- Express.js
+- [React.js](https://react.dev/)
+- [Node.js](https://nodejs.org/en)
+- [MySQL](https://www.mysql.com/) 
+- [Express.js](https://expressjs.com/)
 
 ## Screenshots
 
@@ -35,6 +35,8 @@ This project aims to connect people to blood donation centers and effectively ma
 **Client:** React
 
 **Server:** Node, Express
+
+**Database:** MySQL
 
 ### Dependencies
 
@@ -80,12 +82,13 @@ This project aims to connect people to blood donation centers and effectively ma
   npm install
 ```
 ### Run
-
+- Frontend
 ```bash
+  cd Frontend 
   npm start
+```
+- Backend
+```bash
+  cd Backend
   node server.js
 ```
-
-
-
-    
