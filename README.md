@@ -2,11 +2,12 @@
 This project aims to connect people to blood donation centers and effectively manage donations, request and blood banks.
 
 ## Table Of Contents
-https://github.com/saniaahmad6/VitalDrop_/tree/master
+
   1. [Technologies used](https://github.com/saniaahmad6/VitalDrop_/tree/master#technologies-used)
-  2. [Screenshots](https://github.com/saniaahmad6/VitalDrop_/tree/master#screenshots)
-  3. [Tech Stack](https://github.com/saniaahmad6/VitalDrop_/tree/master#tech-stack)
-  4. [Installation](https://github.com/saniaahmad6/VitalDrop_/tree/master#installation)
+  2. [How the project works](https://github.com/saniaahmad6/VitalDrop_/tree/master#flow)
+  3. [Screenshots](https://github.com/saniaahmad6/VitalDrop_/tree/master#screenshots)
+  4. [Tech Stack](https://github.com/saniaahmad6/VitalDrop_/tree/master#tech-stack)
+  5. [Installation](https://github.com/saniaahmad6/VitalDrop_/tree/master#installation)
 
   
 
@@ -19,8 +20,19 @@ https://github.com/saniaahmad6/VitalDrop_/tree/master
 - [MySQL](https://www.mysql.com/) 
 - [Express.js](https://expressjs.com/)
 
+<a name="flow"/>
+
+## How the project works?
+ * This project has two sides - client and admin.
+ * User (client) can signup and create an account and can choose to either donate blood or make a request to a particular center.
+ * Donation centers can register via their admin in charge. The admin of each donation center is responsible:
+    - to view their blood bank
+    - to generate appointments
+    - to accept or decline donations
+    - to accept or decline requests for blood
 
 <a name="screenshots"/>
+
 ## Screenshots
 
 ### Search by map
